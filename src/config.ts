@@ -7,7 +7,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Zellon的小破站",
+	title: "𝙕𝙚𝙡𝙡𝙤𝙣的小破站",
 	subtitle: "记录我感兴趣的事",
 	lang: "zh_CN", // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
 	themeColor: {
@@ -53,7 +53,7 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/InoryAvater.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-	name: "Zellon",
+	name: "𝙕𝙚𝙡𝙡𝙤𝙣",
 	bio: "信过眼，浮华几何时，剩培植根心，等闲千岁。",
 	links: [
 		{

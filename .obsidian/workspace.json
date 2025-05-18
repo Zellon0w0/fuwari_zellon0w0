@@ -11,10 +11,14 @@
             "id": "300ae8c9d04e63e8",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "src/content/posts/从百草园到三味书屋/index.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "index"
             }
           }
         ]
@@ -49,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:Bar",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,7 +74,8 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -90,6 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "src/content/posts/从百草园到三味书屋/index.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +105,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "反向链接"
+              "title": "index 的反向链接列表"
             }
           },
           {
@@ -108,11 +114,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "src/content/posts/从百草园到三味书屋/index.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "出链"
+              "title": "index 的出链列表"
             }
           },
           {
@@ -136,12 +143,13 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "src/content/posts/从百草园到三味书屋/index.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "大纲"
+              "title": "index 的大纲"
             }
           }
         ]
@@ -161,11 +169,17 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "300ae8c9d04e63e8",
+  "active": "bbee3d60a95b5ee2",
   "lastOpenFiles": [
+    "src/content/posts/从百草园到三味书屋/cover.jpg",
+    "src/content/posts/从百草园到三味书屋/illust_117834481_20250508_181607.jpg",
+    "src/content/spec/about.md",
+    "src/content/posts/从百草园到三味书屋/index.md",
+    "src/content/posts/从百草园到三味书屋",
+    "src/content/posts/未命名",
+    "未命名.md",
     "src/content/posts/guide/index.md",
     "src/content/posts/guide/cover.jpeg",
-    "src/content/spec/about.md",
     "src/content/spec/video.md"
   ]
 }

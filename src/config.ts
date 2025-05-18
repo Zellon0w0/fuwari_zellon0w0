@@ -63,11 +63,11 @@ export const profileConfig: ProfileConfig = {
 			// `pnpm add @iconify-json/<icon-set-name>`
 			url: "https://qm.qq.com/cgi-bin/qm/qr?k=9FSZZdU6PjcZOd_hLVmpZodJU-q_FbAB",
 		},
-		//{
-		//	name: "Steam",
-		//	icon: "fa6-brands:steam",
-		//	url: "https://store.steampowered.com",
-		//},
+		{
+			name: "Bilibili",
+			icon: "fa6-brands:bilibili",
+			url: "https://space.bilibili.com/96914134",
+		},
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github",

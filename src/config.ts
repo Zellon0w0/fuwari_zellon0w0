@@ -40,7 +40,7 @@ export const siteConfig: SiteConfig = {
 
 export const navBarConfig: NavBarConfig = {
 	links: [
-		LinkPreset.Home,
+	LinkPreset.Home,
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
@@ -75,7 +75,7 @@ export const profileConfig: ProfileConfig = {
 		},
 		{
 			name: "EMail",
-			icon: "fa6-brands:github",
+			icon: "fa6-solid:envelope",
 			url: "mailto:zellon0w0@163.com",
 		},
 	],

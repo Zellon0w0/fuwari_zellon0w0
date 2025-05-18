@@ -1,9 +1,11 @@
-# About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+# 关于
 
-::github{repo="saicaca/fuwari"}
+你好！这里是Zellon记录自己感兴趣的事的地方。
 
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty)
+
+
+
+
+
+本站基于[Fuwari](https://github.com/saicaca/fuwari).
+

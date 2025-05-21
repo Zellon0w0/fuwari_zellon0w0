@@ -166,6 +166,9 @@
   },
   "active": "2d2ca040a8521ae0",
   "lastOpenFiles": [
+    "src/pages/friends.astro",
+    "src/pages/about copy.astro",
+    "src/content/spec/friends.md",
     "src/content/posts/逝者已逝，生者如斯/index.md",
     "src/content/posts/for-my-grandpa/new.txt",
     "src/content/posts/for-my-grandpa/index.md",

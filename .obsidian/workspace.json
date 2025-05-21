@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "ce225ab3817a04a9",
+        "id": "15eb08b345c38ff7",
         "type": "tabs",
         "children": [
           {
-            "id": "300ae8c9d04e63e8",
+            "id": "2d2ca040a8521ae0",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/从百草园到三味书屋/index.md",
+                "file": "src/content/posts/逝者已去，生者如斯/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:Bar",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,8 +74,7 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -169,13 +168,19 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "bbee3d60a95b5ee2",
+  "active": "2d2ca040a8521ae0",
   "lastOpenFiles": [
-    "src/content/posts/从百草园到三味书屋/cover.jpg",
+    "src/content/posts/草稿(仅作为测试使用)/cover.jpg",
+    "src/content/posts/逝者已去，生者如斯/cover.jpg",
+    "src/content/posts/逝者已去，生者如斯/cover.png",
+    "src/content/posts/逝者已去，生者如斯/covered.png",
+    "src/content/posts/逝者已去，生者如斯/pexels-pixabay-161073.jpg",
+    "src/content/posts/逝者已去，生者如斯/index.md",
+    "src/content/posts/草稿(仅作为测试使用)/index.md",
+    "未命名.canvas",
     "src/content/posts/从百草园到三味书屋/illust_117834481_20250508_181607.jpg",
     "src/content/spec/about.md",
-    "src/content/posts/从百草园到三味书屋/index.md",
-    "src/content/posts/从百草园到三味书屋",
+    "src/content/posts/草稿(仅作为测试使用)",
     "src/content/posts/未命名",
     "未命名.md",
     "src/content/posts/guide/index.md",

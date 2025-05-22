@@ -170,6 +170,7 @@
   },
   "active": "2d2ca040a8521ae0",
   "lastOpenFiles": [
+    "src/components/widget/Comments.svelte",
     "src/content/posts/for-my-grandpa/cover.jpg",
     "src/pages/friends.astro",
     "src/pages/about copy.astro",

@@ -8,7 +8,6 @@ tags:
   - Windows
   - Ubuntu
   - FnOS
-  - AllinBoom
 category: 折腾日记
 draft: false
 ---

@@ -1,8 +1,8 @@
 ---
 title: PVE虚拟机的安装与使用
 published: 2025-05-25
-description: 在x86主机上安装PVE虚拟化平台以实现AllinOne(x)AllinBoom
-image: ./cover.jpg
+description: 在x86主机上安装PVE虚拟化平台以实现All in One
+image: https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250525220143561.png
 tags:
   - PVE虚拟机
   - Windows

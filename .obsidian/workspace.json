@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "15eb08b345c38ff7",
+        "id": "9310d306d4902e6c",
         "type": "tabs",
         "children": [
           {
-            "id": "2d2ca040a8521ae0",
+            "id": "4b11ddcb85d4bd5f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/for-my-grandpa/index.md",
+                "file": "src/content/posts/250525-PVE-installation/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "tag:Debian",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -74,7 +74,8 @@
               "title": "书签"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -168,21 +169,27 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "2d2ca040a8521ae0",
+  "active": "4b11ddcb85d4bd5f",
   "lastOpenFiles": [
+    "src/content/spec/friends.md",
+    "src/content/posts/250519-for-my-grandpa/index.md",
+    "src/content/posts/250525-PVE-installation/index.md",
+    "2025-05-19.md",
+    "src/content/posts/250525-PVE-installation/index.md.md",
+    "src/content/posts/250525-PVE-installation/新建 文本文档.txt",
+    "src/content/posts/250518-draft-TestOnly/index.md",
+    "src/content/posts/250525-PVE-installation",
+    "src/content/posts/250518-draft-TestOnly/cover.jpg",
+    "src/content/spec/about.md",
     "src/components/widget/Comments.svelte",
-    "src/content/posts/for-my-grandpa/cover.jpg",
+    "src/content/posts/250519-for-my-grandpa/cover.jpg",
     "src/pages/friends.astro",
     "src/pages/about copy.astro",
-    "src/content/spec/friends.md",
     "src/content/posts/逝者已逝，生者如斯/index.md",
-    "src/content/posts/for-my-grandpa/new.txt",
-    "src/content/posts/for-my-grandpa/index.md",
-    "src/content/posts/for-my-grandpa/covered.png",
-    "src/content/posts/for-my-grandpa",
-    "src/content/posts/draft-TestOnly/index.md",
-    "src/content/posts/draft-TestOnly/cover.jpg",
-    "src/content/posts/draft-TestOnly",
+    "src/content/posts/250519-for-my-grandpa/new.txt",
+    "src/content/posts/250519-for-my-grandpa/covered.png",
+    "src/content/posts/250519-for-my-grandpa",
+    "src/content/posts/250518-draft-TestOnly",
     "src/content/posts/草稿(仅作为测试使用)/cover.jpg",
     "src/content/posts/逝者已逝，生者如斯/cover.jpg",
     "src/content/posts/逝者已去，生者如斯/cover.png",
@@ -191,9 +198,7 @@
     "src/content/posts/草稿(仅作为测试使用)/index.md",
     "未命名.canvas",
     "src/content/posts/从百草园到三味书屋/illust_117834481_20250508_181607.jpg",
-    "src/content/spec/about.md",
     "src/content/posts/草稿(仅作为测试使用)",
-    "src/content/posts/未命名",
     "未命名.md",
     "src/content/posts/guide/index.md",
     "src/content/posts/guide/cover.jpeg",

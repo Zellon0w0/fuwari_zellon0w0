@@ -79,4 +79,30 @@ draft: false
 
 至此，PVE虚拟平台安装完毕，可以开始安装虚拟机。
 
-### 安装Windows10 22H2
+### 安装FnOS  
+
+由于笔者有两块机械硬盘，想要在不同虚拟机里共用这两块机械硬盘，最好的办法是使用nas系统将硬盘共享，因此首先安装FnOS来对硬盘进行共享操作。  
+
+
+此处参照[飞牛OS官方教程文档](https://help.fnnas.com/articles/fnosV1/start/install-virtual.md)。  
+
+### 安装Ubuntu
+
+* 在PVE后台选择**ISO镜像**，上传Ubuntu镜像  
+* 点击**创建虚拟机**，在**操作系统**中选择上传的镜像![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250527193318769.png)
+* 设置好其余设置后点击完成创建  
+* 选中新创建的Ubuntu虚拟机的**控制台**，点击**START NOW**启动虚拟机  
+* 自行完成Ubuntu系统安装环节  
+
+### 安装后处理
+
+#### 删除上传的ISO镜像
+
+删除上传的ISO镜像以节省空间，删除后还需要去对应虚拟机内将其**硬件**选项卡中的**CD/DVD驱动器**改为空，以防止后续虚拟机启动时无法找到对应镜像报错。![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250527193935636.png)
+
+#### 配置虚拟机开机自启动(可选)
+
+在虚拟机**选项**选项卡中，将**开机自启动**配置为是。  
+
+
+至此，虚拟机平台以及虚拟机的安装已经完成，感谢你耐心看完整篇文章。如果你需要其他系统，如Windows、黑群晖、黑苹果之类，请自行前往互联网搜索教程。  

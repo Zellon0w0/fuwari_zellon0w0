@@ -5,9 +5,9 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getEntry } from "astro:content";
 import { render } from "astro:content";
 import Markdown from "@components/misc/Markdown.astro";
+import Comments from "@components/widget/Comments.svelte";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
-import Comments from '@components/widget/Comments.svelte';
 
 const friendsPost = await getEntry("spec", "friends");
 
@@ -19,33 +19,42 @@ const { Content } = await render(friendsPost);
 const items = [
 	{
 		title: "Astro",
-		imgurl: "https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/astro-icon-light-gradient.svg",
+		imgurl:
+			"https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/astro-icon-light-gradient.svg",
 		desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
 		siteurl: "https://github.com/withastro/astro",
 		tags: [""],
 	},
-    {
+	{
 		title: "时歌的博客",
 		imgurl: "https://www.lapis.cafe/_astro/avatar.exAKhE7w_1xwha6.webp",
 		desc: "理解以真实为本，但真实本身并不会自动呈现",
 		siteurl: "https://lapis.cafe",
 		tags: [""],
 	},
-    {
+	{
 		title: "溪午的博客",
 		imgurl: "https://www.xiwuqaq.me/_astro/avatar.B24N4CPn_Z10xJVE.webp",
 		desc: "愿不再遗憾所有",
 		siteurl: "https://www.xiwuqaq.me",
 		tags: [""],
 	},
-    {
+	{
 		title: "mikann-OWQ",
 		imgurl: "https://www.mikann.fun/_astro/chika.DzUWaJqt_Z2qyfVY.webp",
 		desc: "这个人不是很精彩呢",
 		siteurl: "https://mikann.fun",
 		tags: [""],
 	},
-]
+	{
+		title: "白咲のblog",
+		imgurl:
+			"https://cdn.jsdelivr.net/gh/luojisama/pic_bed@main/img/202505270839579.png",
+		desc: "歇斯底里是崩溃，底里歇斯是美味",
+		siteurl: "https://www.shiro.team/",
+		tags: [""],
+	},
+];
 ---
 <MainGridLayout title={i18n(I18nKey.friends)} description={i18n(I18nKey.friends)}>
     <div class="flex w-full rounded-[var(--radius-large)] overflow-hidden relative min-h-32">

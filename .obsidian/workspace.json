@@ -74,8 +74,7 @@
               "title": "书签"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -169,7 +168,7 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "4b11ddcb85d4bd5f",
+  "active": "a41a8aaf7ababcd2",
   "lastOpenFiles": [
     "src/content/spec/friends.md",
     "src/content/posts/250519-for-my-grandpa/index.md",

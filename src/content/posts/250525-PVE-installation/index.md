@@ -107,3 +107,99 @@ draft: false
 
 
 至此，虚拟机平台以及虚拟机的安装已经完成，感谢你耐心看完整篇文章。如果你需要其他系统，如Windows、黑群晖、黑苹果之类，请自行前往互联网搜索教程。  
+
+# 四、PVE使用过程遇到的问题汇总 
+
+## 1.添加磁盘 
+
+### · 在PVE上添加非系统盘（如外加机械硬盘） 
+
+![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250529101440122.png)
+此处的 **/dev/sda** 与 **/dev/sdb** 即笔者在主机上安装的两张机械硬盘。由于PVE不会自动挂载除系统盘外的磁盘，此处我们需要对外加的硬盘进行手动挂载。***后文的操作涉及磁盘操作，请提前对磁盘内数据进行备份！！***  
+
+#### 操作步骤 
+
+通过ssh连接到PVE后台，进行磁盘的分区操作。 
+>`fdsik /dev/sda`   **# 此处的/dev/sda是你要进行操作的分区**
+
+此处键入 **d** 删除原有分区，如果原有分区较多，则需要多次删除以删除所有分区  
+>`Command (m for help): d` 
+>`Selected partition 1`
+>`Partition 1 has been deleted.`
+>
+> `Command (m for help): d`
+> `No partition is defined yet!`
+
+此处键入 **n** 创建分区，按照提示键入 **p** 创建主分区，按照提示选择主分区的数量，默认1个分区即可  
+>`Command (m for help): n` 
+>`Partition type`
+>	`p   primary (0 primary, 0 extended, 4 free)
+>	`e   extended (container for logical partitions)`
+   `Select (default p): p`
+   `Partition number (1-4, default 1): 1`  **# 创建分区的数量**
+
+此处是选择分区的起始位置和终止位置，如无特殊要求直接按两次回车选择默认即可  
+>`First sector (2048-1465149167, default 2048):`
+>`Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-1465149167, default 1465149167):`
+>
+>`Created a new partition 1 of type 'Linux' and of size 698.6 GiB.`
+
+键入 **p** 可查看分区是否创建成功，如果没有问题则键入 **w** 写入创建的分区，保存退出  
+>`Command (m for help): p`
+>`Disk /dev/sda: 698.64 GiB, 750156374016 bytes, 1465149168 sectors`
+>`Disk model: ST9750420AS`
+>`Units: sectors of 1 * 512 = 512 bytes`
+>`Sector size (logical/physical): 512 bytes / 4096 bytes`
+>`I/O size (minimum/optimal): 4096 bytes / 4096 bytes`
+>`Disklabel type: dos`
+>`Disk identifier: 0xd907c71c`
+>
+>`Device     Boot Start        End    Sectors   Size Id Type`
+>`/dev/sda1        2048 1465149167 1465147120 698.6G 83 Linux`
+>
+>`Command (m for help): w`
+>`The partition table has been altered.`
+>`Calling ioctl() to re-read partition table.`
+>`Syncing disks.`
+
+接下来格式化分区，推荐将分区格式化为ext4  
+>`mkfs -t ext4 /dev/sda1`
+
+分区现在已经创建完成，接下来用命令将分区挂载。在 **/mnt** 目录下新建一个文件夹以将分区挂载到这个文件夹，这里的文件夹名字可以自定义。  
+>`mkdir /mnt/hd1`  **# 创建文件夹**
+>`mount -t ext4 /dev/sda1 /mnt/hd1`  **# 将sda1分区挂载到/mnta/hd1下**
+
+由于此处的挂载相当于临时挂载，在每次系统重启后都会自动取消挂载，我们需要设置开机自动挂载。  
+>`echo “mount -t ext4 /dev/sda1 /mnt/hd1” >> /etc/rc.local
+
+随后回到PVE后台，添加刚刚挂载好的磁盘，按照如图所示步骤操作即可。  
+![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250529104803215.png)
+
+点击**添加**后完成添加磁盘操作，之后即可开始使用这块磁盘。
+
+### · rc.local无法开机自动运行
+
+笔者在使用**rc.local**配置开机自动挂载时遇到了报错，无法使用。在尝试修改权限，修改配置文件等无果后，采用另一种方式实现开机自动挂载。  
+
+使用**systemd**服务替代**rc.local**  
+>`systemd /etc/systemd/system/mount-disks.service`  **# 创建mount-disks服务**
+>`nano /etc/systemd/system/mount-disks.service`  **# 编辑mount-sidks服务**
+
+在**mount-disks.service**中插入以下文本  
+>[Unit] 
+>Description=Mount Disks 
+>After=network.target 
+>
+>[Service] 
+>Type=oneshot 
+>ExecStart=/bin/mount -t ext4 /dev/sda1 /mnt/hd1 
+>RemainAfterExit=true 
+>
+>[Install] 
+>WantedBy=multi-user.target
+
+启用并启动服务  
+>`systemctl enable mount-disks.service`
+>`systemctl start mount-disks.service`
+
+重启PVE测试，发现开机后磁盘成功挂载。

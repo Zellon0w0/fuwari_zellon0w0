@@ -21,7 +21,8 @@ draft: false
 需要使用的软件/镜像：[ProxmoxVE.iso](https://www.proxmox.com)、[Windows10 22H2.iso](https://next.itellyou.cn/Original/#cbp=Product?ID=f905b2d9-11e7-4ee3-8b52-407a8befe8d1)、[Ubuntu22.04](https://ubuntu.com)、[FnOS](https://www.fnnas.com)  、[需要用到的软件(百度网盘)](https://pan.baidu.com/s/1yYTGwMY6rPXVLq-T8HsO9w?pwd=55f7)、一个≥8G的U盘
 
 # 二、安装流程
-### 安装PVE系统
+## 1.安装PVE系统  
+
 首先准备好需要使用的PVE镜像，使用**balenaEtcher**将镜像烧录到U盘中  
 
 ![选择镜像与U盘](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250525202452529.png)  
@@ -33,11 +34,13 @@ draft: false
 ![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250525205605535.png)
 >此处可能由于笔者电脑未安装显卡驱动，选择第一个选项后卡在了'loading driver'，此处参照[DreamLife.大佬的文章](https://blog.csdn.net/z609932088/article/details/143777861)进行设置后即可正常安装。  
 >
->>操作步骤：* 在引导菜单中，使用箭头键选择 **Install Proxmox VE (Terminal UI)** 选项
+>>操作步骤：  
+>>* 在引导菜单中，使用箭头键选择 **Install Proxmox VE (Terminal UI)** 选项
 >>* 按下键盘上的E键进入编辑模式
->>*使用箭头键导航到以 **linux** 开头的那一行，并将光标移动至该行末尾
+>>* 使用箭头键导航到以 **linux** 开头的那一行，并将光标移动至该行末尾
 >>* 在末尾处插入一个空格，随后输入 **nomodest**
->>* 按下 **ctrl+x** 保存，启动安装程序  
+>>* 按下 **ctrl+x** 保存，启动安装程序   
+>  
 >Terminal UI模式下的安装流程与Graphical模式基本一致  
 
 当完成上述流程后，电脑会在完成准备工作后自动重启，当显示出如下界面即可正常开始安装。  
@@ -79,14 +82,14 @@ draft: false
 
 至此，PVE虚拟平台安装完毕，可以开始安装虚拟机。
 
-### 安装FnOS  
+## 2.安装FnOS  
 
 由于笔者有两块机械硬盘，想要在不同虚拟机里共用这两块机械硬盘，最好的办法是使用nas系统将硬盘共享，因此首先安装FnOS来对硬盘进行共享操作。  
 
 
 此处参照[飞牛OS官方教程文档](https://help.fnnas.com/articles/fnosV1/start/install-virtual.md)。  
 
-### 安装Ubuntu
+## 3.安装Ubuntu
 
 * 在PVE后台选择**ISO镜像**，上传Ubuntu镜像  
 * 点击**创建虚拟机**，在**操作系统**中选择上传的镜像![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250527193318769.png)
@@ -170,7 +173,7 @@ draft: false
 >`mount -t ext4 /dev/sda1 /mnt/hd1`  **# 将sda1分区挂载到/mnta/hd1下**
 
 由于此处的挂载相当于临时挂载，在每次系统重启后都会自动取消挂载，我们需要设置开机自动挂载。  
->`echo “mount -t ext4 /dev/sda1 /mnt/hd1” >> /etc/rc.local
+>`echo “mount -t ext4 /dev/sda1 /mnt/hd1” >> /etc/rc.local`
 
 随后回到PVE后台，添加刚刚挂载好的磁盘，按照如图所示步骤操作即可。  
 ![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250529104803215.png)

@@ -1,7 +1,7 @@
 ---
 title: 窃来的文案
 published: 2025-05-30
-description: 
+description: 窃来的文案
 image: ./cover.jpg
 tags:
   - 文案

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/250525-PVE-installation/index.md",
+                "file": "src/content/posts/250530-copywritings/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -53,7 +53,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:Debian",
+                "query": "path:\"src/content/posts/250530-copywritings/\" ",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -168,11 +168,17 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "a41a8aaf7ababcd2",
+  "active": "4b11ddcb85d4bd5f",
   "lastOpenFiles": [
+    "src/content/posts/250530-copywritings/cover.jpg",
+    "src/content/posts/250530-copywritings/illust_128329126_20250410_005422.jpg",
+    "2025-05-25.md",
+    "src/content/posts/250530-copywritings/index.md",
+    "src/content/posts/250525-PVE-installation/index.md",
+    "src/content/posts/250519-for-my-grandpa/cover.jpg",
+    "src/content/posts/250530-copywritings",
     "src/content/spec/friends.md",
     "src/content/posts/250519-for-my-grandpa/index.md",
-    "src/content/posts/250525-PVE-installation/index.md",
     "2025-05-19.md",
     "src/content/posts/250525-PVE-installation/index.md.md",
     "src/content/posts/250525-PVE-installation/新建 文本文档.txt",
@@ -181,7 +187,6 @@
     "src/content/posts/250518-draft-TestOnly/cover.jpg",
     "src/content/spec/about.md",
     "src/components/widget/Comments.svelte",
-    "src/content/posts/250519-for-my-grandpa/cover.jpg",
     "src/pages/friends.astro",
     "src/pages/about copy.astro",
     "src/content/posts/逝者已逝，生者如斯/index.md",
@@ -200,7 +205,6 @@
     "src/content/posts/草稿(仅作为测试使用)",
     "未命名.md",
     "src/content/posts/guide/index.md",
-    "src/content/posts/guide/cover.jpeg",
     "src/content/spec/video.md"
   ]
 }

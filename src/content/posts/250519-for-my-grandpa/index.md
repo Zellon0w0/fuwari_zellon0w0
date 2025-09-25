@@ -6,7 +6,7 @@ image: ./cover.jpg
 tags:
   - 回忆录
 category: 回忆录
-draft: false
+draft: true
 ---
 
 `本文献给我的爷爷`  

@@ -6,7 +6,6 @@
 
 本人文笔水平一般，本站主要用于记录自己的所见所闻，而如果文章中的某些内容对您有帮助，本人荣幸之至。  
 
-![illust_100374704_20241229_001656.jpg](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/illust_100374704_20241229_001656.png)
 
 
 本站建站基于[Fuwari](https://github.com/saicaca/fuwari) & [Astro](https://github.com/withastro/astro)，同时感谢[Vercel](www.vercel.com) & [github](www.github.com)提供的服务。

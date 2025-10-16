@@ -18,7 +18,7 @@ draft: false
 ***数据不备份，亲人两行泪***  
 
 # 一、准备工作
-需要使用的软件/镜像：[ProxmoxVE.iso](https://www.proxmox.com)、[Windows10 22H2.iso](https://next.itellyou.cn/Original/#cbp=Product?ID=f905b2d9-11e7-4ee3-8b52-407a8befe8d1)、[Ubuntu22.04](https://ubuntu.com)、[FnOS](https://www.fnnas.com)  、[需要用到的软件(百度网盘)](https://pan.baidu.com/s/1yYTGwMY6rPXVLq-T8HsO9w?pwd=55f7)、一个≥8G的U盘
+需要使用的软件/镜像：[ProxmoxVE.iso](https://www.proxmox.com)、[Windows10 22H2.iso](https://next.itellyou.cn/Original/#cbp=Product?ID=f905b2d9-11e7-4ee3-8b52-407a8befe8d1)、[Ubuntu22.04](https://ubuntu.com)、[FnOS](https://www.fnnas.com)  、[balenaEtcher](https://etcher.balena.io/)、[pve_source](https://github.com/zxhpipi/pve-source)、一个≥8G的U盘
 
 # 二、安装流程
 ## 1.安装PVE系统  

@@ -172,8 +172,12 @@
   "active": "15fe5e874216dda8",
   "lastOpenFiles": [
     "src/content/posts/sample.md",
-    "未命名.base",
+    "src/content/posts/000000-sample/cover.jpg",
+    "src/content/posts/000000-sample/sample.md",
+    "src/content/posts/000000-sample",
+    "src/content/posts/新建文件夹",
     "src/content/posts/251008-immortalwrt/index.md",
+    "未命名.base",
     "src/content/posts/250630-ipcrawltool-useation/index.md",
     "2025-05-30.md",
     "src/content/posts/250518-draft-TestOnly/index.md",
@@ -192,7 +196,6 @@
     "src/content/posts/250519-for-my-grandpa/cover.jpg",
     "src/content/posts/新建 文本文档.txt",
     "src/content/posts/草稿",
-    "src/content/posts/新建文件夹",
     "src/content/posts/250630-ipcrawltool-useation",
     "src/content/posts/2503630-ipcrawltool-useation/index.md",
     "src/content/posts/2503630-ipcrawltool-useation/新建 文本文档.txt",
@@ -204,7 +207,6 @@
     "README.es.md",
     "2025-05-25.md",
     "2025-05-19.md",
-    "src/content/posts/250531-napcat-n-cyberbot-deployment",
     "src/content/posts/250530-copywritings/illust_128329126_20250410_005422.jpg",
     "src/content/posts/250525-PVE-installation/index.md.md",
     "src/content/posts/250518-draft-TestOnly/cover.jpg",
@@ -213,9 +215,7 @@
     "src/content/posts/逝者已逝，生者如斯/cover.jpg",
     "src/content/posts/逝者已去，生者如斯/cover.png",
     "src/content/posts/逝者已逝，生者如斯/covered.png",
-    "src/content/posts/逝者已去，生者如斯/pexels-pixabay-161073.jpg",
     "src/content/posts/草稿(仅作为测试使用)/index.md",
-    "未命名.md",
-    "src/content/posts/guide/index.md"
+    "未命名.md"
   ]
 }

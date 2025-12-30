@@ -1,5 +1,5 @@
 ---
-title: OpenClash程序IP抓取绕过
+title: OpenClash附加规则获取
 published: 2025-06-30
 description: 使用ipcrawltool抓取游戏ip实现openclash绕过规则配置
 tags:

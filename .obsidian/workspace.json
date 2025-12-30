@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/250531-napcat-n-cyberbot-deployment/index.md",
+                "file": "src/content/posts/250630-ipcrawltool/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -169,12 +169,15 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "2046de1f5f71d960",
+  "active": "a41a8aaf7ababcd2",
   "lastOpenFiles": [
+    "src/content/posts/250531-cyberbot/index.md",
+    "src/content/posts/000000-mioki/sample.md",
+    "src/content/posts/000000-mioki/cover.jpg",
+    "src/content/posts/000000-mioki",
     "src/content/posts/251008-immortalwrt/index.md",
-    "src/content/posts/250531-napcat-n-cyberbot-deployment/index.md",
-    "src/content/posts/250525-PVE-installation/index.md",
-    "src/content/posts/250630-ipcrawltool-useation/index.md",
+    "src/content/posts/250525-PVE/index.md",
+    "src/content/posts/250630-ipcrawltool/index.md",
     "src/content/posts/sample.md",
     "src/content/posts/000000-sample/cover.jpg",
     "src/content/posts/000000-sample/sample.md",
@@ -196,10 +199,9 @@
     "src/content/posts/250519-for-my-grandpa/cover.jpg",
     "src/content/posts/新建 文本文档.txt",
     "src/content/posts/草稿",
-    "src/content/posts/250630-ipcrawltool-useation",
+    "src/content/posts/250630-ipcrawltool",
     "src/content/posts/2503630-ipcrawltool-useation/index.md",
     "src/content/posts/2503630-ipcrawltool-useation/新建 文本文档.txt",
-    "src/content/posts/2503630-ipcrawltool-useation",
     "().md",
     "www.proxmox.com.md",
     "README.zh-CN.md",
@@ -214,7 +216,6 @@
     "src/content/posts/草稿(仅作为测试使用)/cover.jpg",
     "src/content/posts/逝者已逝，生者如斯/cover.jpg",
     "src/content/posts/逝者已去，生者如斯/cover.png",
-    "src/content/posts/逝者已逝，生者如斯/covered.png",
     "src/content/posts/草稿(仅作为测试使用)/index.md",
     "未命名.md"
   ]

@@ -1,5 +1,5 @@
 ---
-title: (已过期)基于NapCat和Cyberbot的QQ群机器人部署教程
+title: (已弃用)基于NapCat和Cyberbot的QQ群机器人部署教程
 published: 2025-05-31
 description: 本文记录了使用napcat和cyberbot搭建QQ群聊机器人的过程。
 tags:

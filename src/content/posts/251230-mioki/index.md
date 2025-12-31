@@ -173,7 +173,11 @@ CLI 会依次引导你完成项目名称、权限设置，创建完成后先按�
 | napcat.port       | number   | 3001        | NapCat WebSocket 服务端口，默认 3001      |
 
 
-之后在文件夹目录下使用`npm install && npm start`即可启动bot 
+之后在文件夹目录下使用下列命令即可启动bot 
+
+```bash
+pnpm install && pnpm start
+```
 
 当你看到如下提示即代表机器人正确启动 
 ```

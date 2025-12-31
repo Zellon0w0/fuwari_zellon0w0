@@ -96,7 +96,7 @@ screen -dmS napcat bash -c "xvfb-run -a /root/Napcat/opt/QQ/qq --no-sandbox "
 访问`127.0.0.1:6099`或`服务器公网ip:6099`来打开 Napcat Webui，查看终端后台即可获取到登录 token  
 
 ![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231094203631.png)
->后台启动输入`screen -r napcat`即可打开 Napcat 后台，复制 token 后可直接`ctrl+c`关闭 screen 
+>后台启动输入`screen -r napcat`即可打开 Napcat 后台，复制 token 后可直接`ctrl+A+D`关闭 screen 
 
 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️注意⚠️⚠️⚠️⚠️⚠️⚠️⚠️ 
 

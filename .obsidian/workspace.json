@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/251230-mioki/index.md",
+                "file": "src/content/posts/250531-cyberbot/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -171,13 +171,16 @@
   },
   "active": "2046de1f5f71d960",
   "lastOpenFiles": [
+    "src/content/posts/250525-PVE/index.md",
+    "src/content/posts/250519-for-my-grandpa/cover.jpg",
+    "src/content/posts/250531-cyberbot/index.md",
+    "www.md",
+    "未命名.base",
+    "src/content/posts/251230-mioki/index.md",
     "src/content/posts/000000-sample/index.md",
     "src/content/posts/250630-ipcrawltool/index.md",
     "src/content/posts/251008-immortalwrt/index.md",
-    "src/content/posts/251230-mioki/index.md",
-    "src/content/posts/250525-PVE/index.md",
     "src/content/posts/251230-mioki/cover.jpg",
-    "src/content/posts/250531-cyberbot/index.md",
     "package.json.1590631003",
     "pnpm-lock.yaml.3196855060",
     "node_modules/@vercel",
@@ -187,10 +190,8 @@
     "node_modules/@rollup",
     "node_modules/@iconify-json",
     "node_modules/@iconify",
-    "node_modules/@fontsource",
     "src/content/posts/000000-sample/cover.jpg",
     "src/content/posts/250519-for-my-grandpa/index.md",
-    "src/content/posts/250519-for-my-grandpa/cover.jpg",
     "src/content/posts/250519-for-my-grandpa/covered.png",
     "2025-05-30.md",
     "src/content/posts/sample.md",
@@ -215,7 +216,6 @@
     "src/content/posts/逝者已逝，生者如斯/index.md",
     "src/content/posts/草稿(仅作为测试使用)/cover.jpg",
     "src/content/posts/逝者已逝，生者如斯/cover.jpg",
-    "src/content/posts/逝者已去，生者如斯/cover.png",
-    "src/content/posts/草稿(仅作为测试使用)/index.md"
+    "src/content/posts/逝者已去，生者如斯/cover.png"
   ]
 }

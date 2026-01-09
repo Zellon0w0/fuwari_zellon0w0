@@ -38,7 +38,7 @@ draft: false
 >>* 在引导菜单中，使用箭头键选择 **Install Proxmox VE (Terminal UI)** 选项
 >>* 按下键盘上的E键进入编辑模式
 >>* 使用箭头键导航到以 **linux** 开头的那一行，并将光标移动至该行末尾
->>* 在末尾处插入一个空格，随后输入 **nomodest**
+>>* 在末尾处插入一个空格，随后输入 **nomodeset**
 >>* 按下 **ctrl+x** 保存，启动安装程序   
 >  
 >Terminal UI模式下的安装流程与Graphical模式基本一致  

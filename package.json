@@ -21,6 +21,7 @@
     "@astrojs/svelte": "7.0.13",
     "@astrojs/tailwind": "^6.0.2",
     "@fontsource-variable/jetbrains-mono": "^5.2.5",
+    "@fontsource/nunito": "^5.2.7",
     "@fontsource/roboto": "^5.2.5",
     "@iconify-json/fa6-brands": "^1.2.5",
     "@iconify-json/fa6-regular": "^1.2.3",

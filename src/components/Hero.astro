@@ -1,0 +1,38 @@
+---
+import { Icon } from "astro-icon/components";
+import { profileConfig, siteConfig } from "../config";
+import ImageWrapper from "./misc/ImageWrapper.astro";
+
+const { avatar, name, bio, links } = profileConfig;
+---
+<div class="flex flex-col items-center justify-center min-h-[60vh] py-16">
+    <!-- Avatar -->
+    <div class="relative w-48 h-48 mb-8 rounded-full overflow-hidden shadow-xl ring-4 ring-white dark:ring-neutral-800">
+        <ImageWrapper src={avatar || ""} alt="Profile Image" class="w-full h-full object-cover" />
+    </div>
+
+    <!-- Title -->
+    <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-4 text-center">
+        {siteConfig.title}
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="text-2xl text-gray-500 dark:text-gray-400 mb-10 text-center font-light">
+        {bio}
+    </p>
+
+    <!-- Social Links -->
+    <div class="flex gap-6 mb-16">
+        {links.map(item => (
+            <a href={item.url} target="_blank" aria-label={item.name}
+               class="text-gray-600 dark:text-gray-400 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-colors transform hover:scale-110">
+                <Icon name={item.icon} class="text-3xl" />
+            </a>
+        ))}
+    </div>
+
+    <!-- Scroll Down Indicator -->
+    <div class="animate-bounce cursor-pointer" onclick="window.scrollTo({top: window.innerHeight, behavior: 'smooth'})">
+        <Icon name="fa6-solid:chevron-down" class="text-3xl text-gray-400 hover:text-[var(--primary)] transition-colors" />
+    </div>
+</div>

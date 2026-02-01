@@ -1,13 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
-import PostGridCard from "../components/PostGridCard.astro";
 import PostPage from "../components/PostPage.astro";
 import Pagination from "../components/control/Pagination.astro";
 import { PAGE_SIZE } from "../constants/constants";
-import HomeLayout from "../layouts/HomeLayout.astro";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
-import { getPostUrlBySlug } from "../utils/url-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
@@ -18,32 +15,9 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const len = page.data.length;
-const isHome = page.currentPage === 1;
 ---
 
-{isHome ? (
-    <HomeLayout>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {page.data.map((entry: any, index: number) => (
-                <PostGridCard
-                    entry={entry}
-                    title={entry.data.title}
-                    tags={entry.data.tags}
-                    category={entry.data.category}
-                    published={entry.data.published}
-                    updated={entry.data.updated}
-                    url={getPostUrlBySlug(entry.slug)}
-                    image={entry.data.image}
-                    description={entry.data.description}
-                    style={`animation-delay: calc(var(--content-delay) + ${index * 50}ms);`}
-                />
-            ))}
-        </div>
-        <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
-    </HomeLayout>
-) : (
-    <MainGridLayout>
-        <PostPage page={page}></PostPage>
-        <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
-    </MainGridLayout>
-)}
+<MainGridLayout>
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+</MainGridLayout>

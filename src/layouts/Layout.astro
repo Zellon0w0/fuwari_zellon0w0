@@ -101,6 +101,9 @@ const bannerOffset =
 
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<link rel="preconnect" href="https://fontsapi.zeoseven.com" crossorigin>
+		<link href="https://fontsapi.zeoseven.com/292/main/result.css" onload="this.rel='stylesheet'" rel="preload" as="style" crossorigin>
+		<noscript><link rel="stylesheet" href="https://fontsapi.zeoseven.com/292/main/result.css"></noscript>
 		{favicons.map(favicon => (
 			<link rel="icon"
 				  href={favicon.src.startsWith('/') ? url(favicon.src) : favicon.src}
@@ -164,6 +167,10 @@ const bannerOffset =
 	'banner-height-home': `${BANNER_HEIGHT_HOME}vh`,
 	'banner-height': `${BANNER_HEIGHT}vh`,
 }}>
+html {
+	font-family: "LXGW WenKai", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
 @tailwind components;
 @layer components {
 	.enable-banner.is-home #banner-wrapper {

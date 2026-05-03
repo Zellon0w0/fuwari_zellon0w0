@@ -52,7 +52,7 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/InoryAvater.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "/avatar.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Zellon",
 	bio: "告别过去，是为了走向未来",
 	links: [

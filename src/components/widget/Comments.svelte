@@ -83,8 +83,8 @@ function formatTime(ts) {
 async function fetchComments() {
   loading = true;
   try {
-    const path = location.pathname;
-    const resp = await fetch(`${WALINE_API}/api/comment?path=${encodeURIComponent(path)}`);
+    const url = location.href;
+    const resp = await fetch(`${WALINE_API}/api/comment?path=${encodeURIComponent(url)}`);
     const text = await resp.text();
     let data;
     try { data = JSON.parse(text); } catch { data = []; }

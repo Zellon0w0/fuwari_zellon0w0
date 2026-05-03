@@ -1,7 +1,6 @@
 <script>
+import { createComment, listComments } from '@utils/waline-client';
 import { onMount } from 'svelte';
-
-const WALINE_API = 'https://waline.zellon.top';
 
 let nickname = $state('');
 let email = $state('');
@@ -84,21 +83,10 @@ function getCommentPath() {
   return location.pathname;
 }
 
-function getCommentList(data) {
-  if (Array.isArray(data)) return data;
-  if (Array.isArray(data?.data)) return data.data;
-  if (Array.isArray(data?.data?.data)) return data.data.data;
-  if (Array.isArray(data?.comments)) return data.comments;
-  return [];
-}
-
 async function fetchComments() {
   loading = true;
   try {
-    const path = getCommentPath();
-    const resp = await fetch(`${WALINE_API}/api/comment?path=${encodeURIComponent(path)}`);
-    const data = await resp.json();
-    comments = getCommentList(data);
+    comments = await listComments(getCommentPath());
   } catch (e) {
     console.error('Failed to load comments:', e);
     comments = [];
@@ -115,17 +103,13 @@ async function submit() {
   if (qq.trim()) body = `[QQ:${qq.trim()}] ${body}`;
 
   try {
-    await fetch(`${WALINE_API}/api/comment`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        comment: body,
-        nick: nickname.trim(),
-        mail: email.trim(),
-        link: website.trim(),
-        url: getCommentPath(),
-        ua: navigator.userAgent,
-      }),
+    await createComment({
+      comment: body,
+      nick: nickname.trim(),
+      mail: email.trim(),
+      link: website.trim(),
+      url: getCommentPath(),
+      ua: navigator.userAgent,
     });
     content = '';
     await fetchComments();
@@ -135,7 +119,11 @@ async function submit() {
   submitting = false;
 }
 
-async function submitReply(parentId) {
+function getReplyRootId(comment) {
+  return comment.rid || comment.objectId;
+}
+
+async function submitReply(parent) {
   if (!nickname.trim() || !replyContent.trim()) return;
   saveUser();
 
@@ -143,18 +131,16 @@ async function submitReply(parentId) {
   if (qq.trim()) body = `[QQ:${qq.trim()}] ${body}`;
 
   try {
-    await fetch(`${WALINE_API}/api/comment`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        comment: body,
-        nick: nickname.trim(),
-        mail: email.trim(),
-        link: website.trim(),
-        url: getCommentPath(),
-        pid: parentId,
-        ua: navigator.userAgent,
-      }),
+    await createComment({
+      comment: body,
+      nick: nickname.trim(),
+      mail: email.trim(),
+      link: website.trim(),
+      url: getCommentPath(),
+      ua: navigator.userAgent,
+      pid: parent.objectId,
+      rid: getReplyRootId(parent),
+      at: parent.nick || '',
     });
     replyContent = '';
     replyingTo = null;
@@ -191,8 +177,8 @@ function handleKeydown(e) {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submit();
 }
 
-function handleReplyKeydown(e, parentId) {
-  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitReply(parentId);
+function handleReplyKeydown(e, parent) {
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitReply(parent);
   if (e.key === 'Escape') cancelReply();
 }
 
@@ -316,10 +302,10 @@ function countAll(list) {
           <div class="mt-3 reply-form rounded-xl p-3">
             <textarea bind:value={replyContent} placeholder="回复 {comment.nick}..."
               class="comment-textarea w-full resize-none" rows="2"
-              onkeydown={(e) => handleReplyKeydown(e, comment.objectId)}></textarea>
+              onkeydown={(e) => handleReplyKeydown(e, comment)}></textarea>
             <div class="flex justify-end gap-2 mt-2">
               <button onclick={cancelReply} class="px-3 py-1.5 rounded-lg text-xs font-bold text-black/40 dark:text-white/40 hover:text-black/70 dark:hover:text-white/70 transition">取消</button>
-              <button onclick={() => submitReply(comment.objectId)} disabled={!replyContent.trim() || !nickname.trim()}
+              <button onclick={() => submitReply(comment)} disabled={!replyContent.trim() || !nickname.trim()}
                 class="comment-submit-btn px-4 py-1.5 rounded-lg text-xs font-bold transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed">回复</button>
             </div>
           </div>

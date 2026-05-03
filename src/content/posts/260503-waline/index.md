@@ -63,3 +63,9 @@ draft: false
 # 二、评论区适配 
 
 为保证博客外观的一致性，我这里没有采用 Waline 原生的评论区样式，仅使用了 Waline 提供的 api 接口来获取评论区内容。 
+
+# 后话 
+
+Waline 的使用还是有一定门槛，它的后台比较简陋，仅有审核、编辑、增删评论的功能，大部分的设置都需要通过修改环境变量来实现。因此如果你需要的是一个开箱即用的评论系统，Waline 可能并不合适，建议尝试[Giscus](https://giscus.app/zh-CN) 、[Twikoo](https://twikoo.js.org/) 、[CWD 评论系统文档](https://cwd.js.org/) 等其他系统。 
+
+> btw , 它的 UI 做的好丑，不然我就直接用原生的样式了

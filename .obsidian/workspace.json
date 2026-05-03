@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/spec/about.md",
+                "file": "src/content/posts/260503-waline/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "about"
+              "title": "index"
             }
           }
         ]
@@ -171,8 +171,10 @@
   },
   "active": "2046de1f5f71d960",
   "lastOpenFiles": [
-    "src/content/spec/friends.md",
+    "src/content/posts/260503-waline/cover.jpg",
     "src/content/posts/260503-waline/index.md",
+    "src/content/spec/about.md",
+    "src/content/spec/friends.md",
     "dist/pagefind/index/zh-cn_483b9a2.pf_index",
     "dist/pagefind/fragment/zh-cn_e490893.pf_fragment",
     "dist/pagefind/fragment/zh-cn_cc283e2.pf_fragment",
@@ -192,7 +194,6 @@
     "dist/favicon/favicon-dark-32.png",
     "dist/favicon/favicon-dark-192.png",
     "dist/favicon/favicon-dark-180.png",
-    "dist/favicon/favicon-dark-128.png",
     "().md",
     "src/content/posts/250531-cyberbot/index.md",
     "src/content/posts/250519-for-my-grandpa/index.md",
@@ -201,7 +202,6 @@
     "src/content/posts/250630-ipcrawltool/index.md",
     "src/content/posts/251008-immortalwrt/index.md",
     "src/content/posts/000000-sample/index.md",
-    "src/content/spec/about.md",
     "www.md",
     "2025-05-30.md",
     "src/content/posts/sample.md",

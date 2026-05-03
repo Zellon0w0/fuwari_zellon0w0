@@ -40,7 +40,7 @@ function saveUser() {
   localStorage.setItem('comment-user', JSON.stringify({
     nickname: nickname.trim(),
     email: email.trim(),
-    website: website.trim(),
+    website: normalizeWebsiteUrl(website),
     qq: qq.trim(),
   }));
 }
@@ -77,6 +77,28 @@ function formatTime(ts) {
   return `${y}/${m}/${day} ${h}:${min}`;
 }
 
+function normalizeWebsiteUrl(value) {
+  const trimmed = value?.trim() || '';
+  if (!trimmed) return '';
+
+  const candidate = trimmed.startsWith('//')
+    ? `https:${trimmed}`
+    : /^[a-z][a-z\d+.-]*:/i.test(trimmed)
+      ? trimmed
+      : `https://${trimmed}`;
+
+  try {
+    const url = new URL(candidate);
+    return ['http:', 'https:'].includes(url.protocol) ? url.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
+function getCommentLink(comment) {
+  return normalizeWebsiteUrl(comment.link);
+}
+
 // ========== API ==========
 
 function getCommentPath() {
@@ -107,7 +129,7 @@ async function submit() {
       comment: body,
       nick: nickname.trim(),
       mail: email.trim(),
-      link: website.trim(),
+      link: normalizeWebsiteUrl(website),
       url: getCommentPath(),
       ua: navigator.userAgent,
     });
@@ -135,7 +157,7 @@ async function submitReply(parent) {
       comment: body,
       nick: nickname.trim(),
       mail: email.trim(),
-      link: website.trim(),
+      link: normalizeWebsiteUrl(website),
       url: getCommentPath(),
       ua: navigator.userAgent,
       pid: parent.objectId,
@@ -300,8 +322,8 @@ function countAll(list) {
       </div>
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-2 mb-1 flex-wrap">
-          {#if comment.link}
-            <a href={comment.link} target="_blank" rel="noopener" class="font-bold text-sm text-[var(--primary)] hover:underline">{comment.nick}</a>
+          {#if getCommentLink(comment)}
+            <a href={getCommentLink(comment)} target="_blank" rel="noopener" class="font-bold text-sm text-[var(--primary)] hover:underline">{comment.nick}</a>
           {:else}
             <span class="font-bold text-sm text-black/80 dark:text-white/80">{comment.nick}</span>
           {/if}

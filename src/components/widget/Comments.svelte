@@ -106,7 +106,6 @@ async function submit() {
   saveUser();
 
   let body = content.trim();
-  // 如果填了 QQ 号，在内容前加标记用于头像获取
   if (qq.trim()) body = `[QQ:${qq.trim()}] ${body}`;
 
   try {
@@ -118,7 +117,7 @@ async function submit() {
         nick: nickname.trim(),
         mail: email.trim(),
         link: website.trim(),
-        url: location.pathname,
+        url: location.href,
         ua: navigator.userAgent,
       }),
     });
@@ -146,7 +145,7 @@ async function submitReply(parentId) {
         nick: nickname.trim(),
         mail: email.trim(),
         link: website.trim(),
-        url: location.pathname,
+        url: location.href,
         pid: parentId,
         ua: navigator.userAgent,
       }),

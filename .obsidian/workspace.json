@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/posts/260503-waline/index.md",
+                "file": "src/content/spec/about.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "index"
+              "title": "about"
             }
           }
         ]
@@ -171,6 +171,8 @@
   },
   "active": "2046de1f5f71d960",
   "lastOpenFiles": [
+    "src/content/spec/friends.md",
+    "src/content/posts/260503-waline/index.md",
     "dist/pagefind/index/zh-cn_483b9a2.pf_index",
     "dist/pagefind/fragment/zh-cn_e490893.pf_fragment",
     "dist/pagefind/fragment/zh-cn_cc283e2.pf_fragment",
@@ -181,7 +183,6 @@
     "dist/pagefind/fragment/zh-cn_26b3186.pf_fragment",
     "dist/pagefind/wasm.unknown.pagefind",
     "dist/pagefind/pagefind.zh-cn_8f5133ae68c78.pf_meta",
-    "dist/pagefind/pagefind.js",
     "dist/_astro/InoryAvater.PMGgR1yb_Z28yWCD.webp",
     "dist/_astro/demo-banner.WD4SMgz_.png",
     "dist/favicon/favicon-light-32.png",
@@ -193,7 +194,6 @@
     "dist/favicon/favicon-dark-180.png",
     "dist/favicon/favicon-dark-128.png",
     "().md",
-    "src/content/posts/260503-waline/index.md",
     "src/content/posts/250531-cyberbot/index.md",
     "src/content/posts/250519-for-my-grandpa/index.md",
     "src/content/posts/251230-mioki/index.md",
@@ -202,7 +202,6 @@
     "src/content/posts/251008-immortalwrt/index.md",
     "src/content/posts/000000-sample/index.md",
     "src/content/spec/about.md",
-    "src/content/spec/friends.md",
     "www.md",
     "2025-05-30.md",
     "src/content/posts/sample.md",

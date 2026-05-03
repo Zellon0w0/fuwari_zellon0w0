@@ -1,5 +1,5 @@
 <script>
-import { createComment, listComments } from '@utils/waline-client';
+import { createComment, listComments, updateCommentLike } from '@utils/waline-client';
 import { onMount } from 'svelte';
 
 let nickname = $state('');
@@ -56,7 +56,7 @@ function onQQInput() {
 
 function getAvatar(c) {
   // 从内容中解析 QQ 号标记
-  const match = c.comment?.match(/^\[QQ:(\d+)\]/);
+  const match = `${c.orig || ''} ${c.comment || ''}`.match(/\[QQ:(\d+)\]/);
   if (match) return `https://q.qlogo.cn/headimg_dl?dst_uin=${match[1]}&spec=640&img_type=jpg`;
   if (c.avatar) return c.avatar;
   return `https://cravatar.cn/avatar/${(c.mail || '').toLowerCase()}?d=mp&s=80`;
@@ -64,11 +64,11 @@ function getAvatar(c) {
 
 function cleanContent(html) {
   // 去掉开头的 [QQ:xxxx] 标记
-  return html?.replace(/^\[QQ:\d+\]\s*/, '') || '';
+  return html?.replace(/^(<p>)?\[QQ:\d+\]\s*/, '$1') || '';
 }
 
 function formatTime(ts) {
-  const d = new Date(typeof ts === 'number' ? ts * 1000 : ts);
+  const d = new Date(typeof ts === 'number' && ts < 1000000000000 ? ts * 1000 : ts);
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
@@ -150,20 +150,45 @@ async function submitReply(parent) {
   }
 }
 
-async function toggleLike(commentId) {
-  const isLiked = likedIds.includes(commentId);
-  if (isLiked) {
-    likedIds = likedIds.filter(id => id !== commentId);
-  } else {
-    likedIds = [...likedIds, commentId];
-  }
-  localStorage.setItem('comment-likes', JSON.stringify(likedIds));
+function updateLocalLikeCount(list, commentId, delta) {
+  return list.map((comment) => {
+    if (comment.objectId === commentId) {
+      return { ...comment, like: Math.max(getLikeCount(comment) + delta, 0) };
+    }
 
-  // Waline 没有原生 like API，用 localStorage 本地计数
+    return {
+      ...comment,
+      children: comment.children ? updateLocalLikeCount(comment.children, commentId, delta) : comment.children,
+    };
+  });
+}
+
+async function toggleLike(comment) {
+  const commentId = comment.objectId;
+  const wasLiked = isLiked(commentId);
+  const delta = wasLiked ? -1 : 1;
+
+  try {
+    await updateCommentLike(commentId, !wasLiked);
+
+    if (wasLiked) {
+      likedIds = likedIds.filter(id => String(id) !== String(commentId));
+    } else {
+      likedIds = [...likedIds, commentId];
+    }
+    comments = updateLocalLikeCount(comments, commentId, delta);
+    localStorage.setItem('comment-likes', JSON.stringify(likedIds));
+  } catch (e) {
+    console.error('Failed to toggle comment like:', e);
+  }
 }
 
 function isLiked(commentId) {
-  return likedIds.includes(commentId);
+  return likedIds.some(id => String(id) === String(commentId));
+}
+
+function getLikeCount(comment) {
+  return Number(comment.like || 0);
 }
 
 function loadLiked() {
@@ -186,11 +211,15 @@ function handleReplyKeydown(e, parent) {
 function buildTree(list) {
   const map = {};
   const roots = [];
+
   for (const c of list) {
-    c._children = [];
-    map[c.objectId] = c;
+    map[c.objectId] = {
+      ...c,
+      _children: (c.children || []).map((child) => ({ ...child, _children: child.children || [] })),
+    };
   }
-  for (const c of list) {
+
+  for (const c of Object.values(map)) {
     if (c.pid && map[c.pid]) {
       map[c.pid]._children.push(c);
     } else {
@@ -283,7 +312,7 @@ function countAll(list) {
         </div>
         <div class="text-sm text-black/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap break-words mb-2">{@html cleanContent(comment.comment)}</div>
         <div class="flex items-center gap-4">
-          <button onclick={() => toggleLike(comment.objectId)}
+          <button onclick={() => toggleLike(comment)}
             class="flex items-center gap-1 text-xs transition hover:text-[var(--primary)]"
             style="color: {isLiked(comment.objectId) ? 'var(--primary)' : ''}">
             {#if isLiked(comment.objectId)}
@@ -291,6 +320,7 @@ function countAll(list) {
             {:else}
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             {/if}
+            <span>{getLikeCount(comment)}</span>
           </button>
           <button onclick={() => startReply(comment.objectId)}
             class="flex items-center gap-1 text-xs text-black/30 dark:text-white/30 transition hover:text-[var(--primary)]">

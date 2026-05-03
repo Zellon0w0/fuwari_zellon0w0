@@ -11,17 +11,20 @@ type WalineCommentListData = {
 };
 
 export type WalineComment = {
-	objectId: string;
+	objectId: string | number;
 	comment?: string;
+	orig?: string;
 	nick?: string;
 	mail?: string;
 	link?: string;
 	avatar?: string;
-	pid?: string;
-	rid?: string;
-	at?: string;
+	pid?: string | number;
+	rid?: string | number;
+	at?: string | number;
+	like?: number;
 	createdAt?: string | number;
 	time?: string | number;
+	children?: WalineComment[];
 	_children?: WalineComment[];
 };
 
@@ -32,9 +35,9 @@ export type CreateWalineCommentPayload = {
 	link?: string;
 	url: string;
 	ua: string;
-	pid?: string;
-	rid?: string;
-	at?: string;
+	pid?: string | number;
+	rid?: string | number;
+	at?: string | number;
 };
 
 function getWalineServerUrl() {
@@ -82,6 +85,22 @@ export async function createComment(
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify(payload),
 	});
+
+	await readWalineResponse(response);
+}
+
+export async function updateCommentLike(
+	objectId: string | number,
+	liked: boolean,
+): Promise<void> {
+	const response = await fetch(
+		`${getWalineServerUrl()}/api/comment/${encodeURIComponent(String(objectId))}`,
+		{
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ like: liked }),
+		},
+	);
 
 	await readWalineResponse(response);
 }

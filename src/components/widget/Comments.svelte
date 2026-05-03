@@ -80,19 +80,25 @@ function formatTime(ts) {
 
 // ========== API ==========
 
+function getCommentPath() {
+  return location.pathname;
+}
+
+function getCommentList(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.data)) return data.data;
+  if (Array.isArray(data?.data?.data)) return data.data.data;
+  if (Array.isArray(data?.comments)) return data.comments;
+  return [];
+}
+
 async function fetchComments() {
   loading = true;
   try {
-    const url = location.href;
-    const resp = await fetch(`${WALINE_API}/api/comment?path=${encodeURIComponent(url)}`);
-    const text = await resp.text();
-    let data;
-    try { data = JSON.parse(text); } catch { data = []; }
-    if (Array.isArray(data)) {
-      comments = data;
-    } else {
-      comments = data.data || data.comments || [];
-    }
+    const path = getCommentPath();
+    const resp = await fetch(`${WALINE_API}/api/comment?path=${encodeURIComponent(path)}`);
+    const data = await resp.json();
+    comments = getCommentList(data);
   } catch (e) {
     console.error('Failed to load comments:', e);
     comments = [];
@@ -117,7 +123,7 @@ async function submit() {
         nick: nickname.trim(),
         mail: email.trim(),
         link: website.trim(),
-        url: location.href,
+        url: getCommentPath(),
         ua: navigator.userAgent,
       }),
     });
@@ -145,7 +151,7 @@ async function submitReply(parentId) {
         nick: nickname.trim(),
         mail: email.trim(),
         link: website.trim(),
-        url: location.href,
+        url: getCommentPath(),
         pid: parentId,
         ua: navigator.userAgent,
       }),

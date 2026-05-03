@@ -4,6 +4,15 @@
     .card-base {
         @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
     }
+    .navbar-surface {
+        background: var(--card-bg);
+        background: color-mix(in srgb, var(--card-bg) 95%, transparent);
+        -webkit-backdrop-filter: blur(12px) saturate(140%);
+        backdrop-filter: blur(12px) saturate(140%);
+    }
+    .navbar-surface-main {
+        border-bottom: 1px solid var(--line-divider);
+    }
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
         @apply transition;
     }

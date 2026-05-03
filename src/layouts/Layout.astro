@@ -198,6 +198,12 @@ html {
 	.navbar-hidden {
 		@apply opacity-0 -translate-y-16
 	}
+	#main-grid.hide-sidebar {
+		grid-template-columns: auto !important;
+	}
+	#main-grid.hide-sidebar #sidebar {
+		@apply hidden;
+	}
 }
 </style>
 
@@ -279,7 +285,6 @@ function setClickOutsideToClose(panel: string, ignores: string[]) {
 		panelDom!.classList.add("float-panel-closed");
 	});
 }
-setClickOutsideToClose("display-setting", ["display-setting", "display-settings-switch"])
 setClickOutsideToClose("nav-menu-panel", ["nav-menu-panel", "nav-menu-switch"])
 setClickOutsideToClose("search-panel", ["search-panel", "search-bar", "search-switch"])
 
@@ -430,6 +435,17 @@ const setup = () => {
 			bodyElement!.classList.add('lg:is-home');
 		} else {
 			bodyElement!.classList.remove('lg:is-home');
+		}
+
+		// toggle sidebar visibility based on whether it's a post page
+		const mainGrid = document.getElementById('main-grid')
+		if (mainGrid) {
+			const isPostPage = visit.to.url.includes('/posts/')
+			if (isPostPage) {
+				mainGrid.classList.add('hide-sidebar')
+			} else {
+				mainGrid.classList.remove('hide-sidebar')
+			}
 		}
 
 		// increase the page height during page transition to prevent the scrolling animation from jumping

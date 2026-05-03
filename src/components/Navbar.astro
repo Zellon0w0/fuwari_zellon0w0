@@ -1,12 +1,12 @@
 ---
 import { Icon } from "astro-icon/components";
-import { navBarConfig, siteConfig } from "../config";
+import { navBarConfig, siteConfig, profileConfig } from "../config";
 import { LinkPresets } from "../constants/link-presets";
 import { LinkPreset, type NavBarLink } from "../types/config";
 import { url } from "../utils/url-utils";
 import LightDarkSwitch from "./LightDarkSwitch.svelte";
 import Search from "./Search.svelte";
-import DisplaySettings from "./widget/DisplaySettings.svelte";
+import ImageWrapper from "./misc/ImageWrapper.astro";
 import NavMenuPanel from "./widget/NavMenuPanel.astro";
 const className = Astro.props.class;
 
@@ -23,40 +23,35 @@ let links: NavBarLink[] = navBarConfig.links.map(
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[
         className,
-        "card-base !overflow-visible max-w-[var(--page-width)] h-[4.5rem] !rounded-t-none mx-auto flex items-center justify-between px-4"]}>
-        <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-5 font-bold active:scale-95">
-            <div class="flex flex-row text-[var(--primary)] items-center text-md">
-                <Icon name="material-symbols:home-outline-rounded" class="text-[1.75rem] mb-1 mr-2" />
-                {siteConfig.title}
+        "card-base !overflow-visible h-[4.5rem] !rounded-none flex items-center justify-center px-6"]}>
+        <div class="flex items-center justify-between max-w-[var(--page-width)] w-full">
+            <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[3.25rem] px-3 font-bold active:scale-95">
+                <div class="flex flex-row text-[var(--primary)] items-center text-md">
+                    <ImageWrapper src={profileConfig.avatar || ""} alt="Avatar" class="w-8 h-8 rounded-full mr-2 overflow-hidden" />
+                    {siteConfig.title}
+                </div>
+            </a>
+            <div class="hidden md:flex">
+                {links.map((l) => {
+                    return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
+                              class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
+                    >
+                        <div class="flex items-center">
+                            {l.name}
+                            {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
+                        </div>
+                    </a>;
+                })}
             </div>
-        </a>
-        <div class="hidden md:flex">
-            {links.map((l) => {
-                return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
-                >
-                    <div class="flex items-center">
-                        {l.name}
-                        {l.external && <Icon name="fa6-solid:arrow-up-right-from-square" class="text-[0.875rem] transition -translate-y-[1px] ml-1 text-black/[0.2] dark:text-white/[0.2]"></Icon>}
-                    </div>
-                </a>;
-            })}
+            <div class="flex">
+                <Search client:only="svelte"></Search>
+                <LightDarkSwitch client:only="svelte"></LightDarkSwitch>
+                <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
+                    <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
+                </button>
+            </div>
+            <NavMenuPanel links={links}></NavMenuPanel>
         </div>
-        <div class="flex">
-            <!--<SearchPanel client:load>-->
-            <Search client:only="svelte"></Search>
-            {!siteConfig.themeColor.fixed && (
-                    <button aria-label="Display Settings" class="btn-plain scale-animation rounded-lg h-11 w-11 active:scale-90" id="display-settings-switch">
-                        <Icon name="material-symbols:palette-outline" class="text-[1.25rem]"></Icon>
-                    </button>
-            )}
-            <LightDarkSwitch client:only="svelte"></LightDarkSwitch>
-            <button aria-label="Menu" name="Nav Menu" class="btn-plain scale-animation rounded-lg w-11 h-11 active:scale-90 md:!hidden" id="nav-menu-switch">
-                <Icon name="material-symbols:menu-rounded" class="text-[1.25rem]"></Icon>
-            </button>
-        </div>
-        <NavMenuPanel links={links}></NavMenuPanel>
-        <DisplaySettings client:only="svelte"></DisplaySettings>
     </div>
 </div>
 
@@ -76,16 +71,6 @@ function loadButtonScript() {
     if (switchBtn) {
         switchBtn.onclick = function () {
             switchTheme()
-        };
-    }
-
-    let settingBtn = document.getElementById("display-settings-switch");
-    if (settingBtn) {
-        settingBtn.onclick = function () {
-            let settingPanel = document.getElementById("display-setting");
-            if (settingPanel) {
-                settingPanel.classList.toggle("float-panel-closed");
-            }
         };
     }
 

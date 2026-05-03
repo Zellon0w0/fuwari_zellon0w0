@@ -1,23 +1,35 @@
 ---
 import type { GetStaticPaths } from "astro";
 import PostPage from "../components/PostPage.astro";
-import Pagination from "../components/control/Pagination.astro";
-import { PAGE_SIZE } from "../constants/constants";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
 import { getSortedPosts } from "../utils/content-utils";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import I18nKey from "@i18n/i18nKey";
+import { i18n } from "@i18n/translation";
+import { url } from "../utils/url-utils";
+import { Icon } from "astro-icon/components";
+
+const LATEST_POSTS_COUNT = 5;
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allBlogPosts = await getSortedPosts();
-	return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
+	return paginate(allBlogPosts, { pageSize: 1000 });
 }) satisfies GetStaticPaths;
-// https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
 
 const { page } = Astro.props;
+
+// Only show the latest N posts on the homepage
+page.data = page.data.slice(0, LATEST_POSTS_COUNT);
 
 const len = page.data.length;
 ---
 
 <MainGridLayout>
     <PostPage page={page}></PostPage>
-    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+    <a href={url('/articles/')}
+       class="btn-plain scale-animation rounded-2xl h-[3.75rem] w-full px-4 flex items-center justify-center gap-2 font-bold text-[var(--primary)] onload-animation"
+       style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}
+    >
+        {i18n(I18nKey.more)}
+        <Icon name="material-symbols:chevron-right-rounded" class="text-[1.25rem]" />
+    </a>
 </MainGridLayout>

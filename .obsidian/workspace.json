@@ -171,6 +171,8 @@
   },
   "active": "2046de1f5f71d960",
   "lastOpenFiles": [
+    "src/pages/articles/[...page].astro",
+    "src/pages/articles",
     "src/content/spec/friends.md",
     "src/content/posts/250525-PVE/index.md",
     "src/content/posts/250531-cyberbot/index.md",
@@ -190,7 +192,6 @@
     "node_modules/@types",
     "node_modules/@rollup",
     "node_modules/@iconify-json",
-    "node_modules/@iconify",
     "src/content/posts/000000-sample/cover.jpg",
     "src/content/posts/250519-for-my-grandpa/index.md",
     "src/content/posts/250519-for-my-grandpa/covered.png",

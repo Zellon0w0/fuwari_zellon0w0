@@ -53,6 +53,9 @@ export default defineConfig({
 		sitemap(),
 	],
 	markdown: {
+		shikiConfig: {
+			theme: 'github-light',
+		},
 		remarkPlugins: [
 			remarkMath,
 			remarkReadingTime,

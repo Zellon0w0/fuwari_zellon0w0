@@ -1,6 +1,12 @@
 <script>
 import { createComment, listComments, updateCommentLike } from '@utils/waline-client';
-import { onMount } from 'svelte';
+import { onMount, tick } from 'svelte';
+
+const EMOJI_PRESETS = [
+  'https://unpkg.com/@waline/emojis@1.4.0/qq',
+  'https://unpkg.com/@waline/emojis@1.4.0/bmoji',
+];
+const MAX_IMAGE_SIZE = 128 * 1024;
 
 let nickname = $state('');
 let email = $state('');
@@ -14,10 +20,19 @@ let replyingTo = $state(null);
 let replyContent = $state('');
 let likedIds = $state([]);
 let loading = $state(true);
+let emojiTabs = $state([]);
+let activeEmojiTab = $state(0);
+let emojiPanelOpen = $state(false);
+let emojiLoading = $state(false);
+let activeEditor = $state('content');
+let mainTextarea;
+let replyTextarea;
+let imageInput;
 
 onMount(() => {
   restoreUser();
   loadLiked();
+  loadEmojiTabs();
   fetchComments();
 });
 
@@ -67,6 +82,22 @@ function cleanContent(html) {
   return html?.replace(/^(<p>)?\[QQ:\d+\]\s*/, '$1') || '';
 }
 
+function getEmojiMap() {
+  return Object.fromEntries(
+    emojiTabs.flatMap((tab) => tab.items.map((item) => [item.code, item.src])),
+  );
+}
+
+function renderContent(html) {
+  const emojiMap = getEmojiMap();
+  return cleanContent(html).replace(/:([a-zA-Z0-9_+-]+):/g, (match, code) => {
+    const src = emojiMap[code];
+    return src
+      ? `<img class="comment-emoji" src="${src}" alt="${code}" loading="lazy" />`
+      : match;
+  });
+}
+
 function formatTime(ts) {
   const d = new Date(typeof ts === 'number' && ts < 1000000000000 ? ts * 1000 : ts);
   const y = d.getFullYear();
@@ -97,6 +128,139 @@ function normalizeWebsiteUrl(value) {
 
 function getCommentLink(comment) {
   return normalizeWebsiteUrl(comment.link);
+}
+
+function normalizeImageUrl(value) {
+  const normalized = normalizeWebsiteUrl(value);
+  return normalized || '';
+}
+
+function resolveEmojiAsset(folder, prefix, item, type) {
+  return `${folder.replace(/\/+$/, '')}/${prefix || ''}${item}${type ? `.${type}` : ''}`;
+}
+
+async function loadEmojiTabs() {
+  emojiLoading = true;
+  try {
+    const tabs = await Promise.all(
+      EMOJI_PRESETS.map(async (folder) => {
+        const response = await fetch(`${folder}/info.json`);
+        const info = await response.json();
+        return {
+          name: info.name,
+          items: info.items.map((item) => ({
+            code: `${info.prefix || ''}${item}`,
+            src: resolveEmojiAsset(folder, info.prefix, item, info.type),
+          })),
+        };
+      }),
+    );
+    emojiTabs = tabs;
+  } catch (e) {
+    console.error('Failed to load emoji presets:', e);
+    emojiTabs = [];
+  }
+  emojiLoading = false;
+}
+
+function getEditorValue() {
+  return activeEditor === 'reply' ? replyContent : content;
+}
+
+function setEditorValue(value) {
+  if (activeEditor === 'reply') {
+    replyContent = value;
+  } else {
+    content = value;
+  }
+}
+
+function getActiveTextarea() {
+  return activeEditor === 'reply' ? replyTextarea : mainTextarea;
+}
+
+async function insertText(before, after = '', fallback = '') {
+  const textarea = getActiveTextarea();
+  const current = getEditorValue();
+  const start = textarea?.selectionStart ?? current.length;
+  const end = textarea?.selectionEnd ?? current.length;
+  const selected = current.slice(start, end) || fallback;
+  const next = `${current.slice(0, start)}${before}${selected}${after}${current.slice(end)}`;
+
+  setEditorValue(next);
+  await tick();
+  textarea?.focus();
+  textarea?.setSelectionRange(
+    start + before.length,
+    start + before.length + selected.length,
+  );
+}
+
+async function insertBlock(prefix, fallback = '') {
+  const textarea = getActiveTextarea();
+  const current = getEditorValue();
+  const start = textarea?.selectionStart ?? current.length;
+  const end = textarea?.selectionEnd ?? current.length;
+  const selected = current.slice(start, end) || fallback;
+  const needsLeadingNewline = start > 0 && current[start - 1] !== '\n';
+  const insert = `${needsLeadingNewline ? '\n' : ''}${prefix}${selected}`;
+  const next = `${current.slice(0, start)}${insert}${current.slice(end)}`;
+
+  setEditorValue(next);
+  await tick();
+  textarea?.focus();
+}
+
+function insertEmoji(code) {
+  insertText(`:${code}:`);
+  emojiPanelOpen = false;
+}
+
+function promptImageUrl() {
+  const url = normalizeImageUrl(window.prompt('图片 URL') || '');
+  if (url) insertText(`![image](${url})`);
+}
+
+function handleImageUpload(event) {
+  const file = event.currentTarget.files?.[0];
+  event.currentTarget.value = '';
+  insertImageFile(file);
+}
+
+function handlePaste(event) {
+  const file = Array.from(event.clipboardData?.files || []).find((item) =>
+    item.type.startsWith('image/'),
+  );
+  if (!file) return;
+
+  event.preventDefault();
+  insertImageFile(file);
+}
+
+function insertImageFile(file) {
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    window.alert('只能上传图片文件');
+    return;
+  }
+
+  if (file.size > MAX_IMAGE_SIZE) {
+    window.alert('图片不能超过 128KB');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => insertText(`![${file.name}](${reader.result})`);
+  reader.onerror = () => window.alert('图片读取失败');
+  reader.readAsDataURL(file);
+}
+
+function toggleEmojiPanel(editor) {
+  const wasActive = activeEditor === editor;
+  activeEditor = editor;
+  emojiPanelOpen = wasActive ? !emojiPanelOpen : true;
+  if (!emojiTabs.length && !emojiLoading) loadEmojiTabs();
 }
 
 // ========== API ==========
@@ -286,7 +450,8 @@ function countAll(list) {
         <input bind:value={website} type="url" placeholder="个人网站" class="comment-input" />
       </div>
     </div>
-    <textarea bind:value={content} placeholder="写下你的想法... (Ctrl+Enter 发送)" class="comment-textarea w-full resize-none" rows="4" onkeydown={handleKeydown}></textarea>
+    <textarea bind:value={content} bind:this={mainTextarea} placeholder="写下你的想法... (Ctrl+Enter 发送)" class="comment-textarea w-full resize-none" rows="4" onfocus={() => activeEditor = 'content'} onpaste={handlePaste} onkeydown={handleKeydown}></textarea>
+    {@render editorToolbar('content')}
     <div class="flex justify-between items-center mt-3">
       <span class="text-xs text-black/25 dark:text-white/25">Ctrl+Enter 发送</span>
       <button onclick={submit} disabled={!nickname.trim() || !content.trim() || submitting}
@@ -310,6 +475,44 @@ function countAll(list) {
   {/if}
 </div>
 
+<input bind:this={imageInput} type="file" accept="image/*" class="hidden" onchange={handleImageUpload} />
+
+{#snippet editorToolbar(editor)}
+  <div class="comment-toolbar flex items-center gap-1 mt-3">
+    <button type="button" title="加粗" onclick={() => { activeEditor = editor; insertText('**', '**', '文字'); }}>B</button>
+    <button type="button" title="斜体" onclick={() => { activeEditor = editor; insertText('*', '*', '文字'); }}><em>I</em></button>
+    <button type="button" title="代码" onclick={() => { activeEditor = editor; insertText('`', '`', 'code'); }}>&lt;/&gt;</button>
+    <button type="button" title="引用" onclick={() => { activeEditor = editor; insertBlock('> ', '引用'); }}>”</button>
+    <button type="button" title="链接" onclick={() => { activeEditor = editor; insertText('[', '](https://)', '链接'); }}>↗</button>
+    <button type="button" title="图片链接" onclick={() => { activeEditor = editor; promptImageUrl(); }}>图</button>
+    <button type="button" title="上传图片" onclick={() => { activeEditor = editor; imageInput?.click(); }}>+</button>
+    <button type="button" title="表情" class:active={emojiPanelOpen && activeEditor === editor} onclick={() => toggleEmojiPanel(editor)}>☺</button>
+  </div>
+
+  {#if emojiPanelOpen && activeEditor === editor}
+    <div class="emoji-panel rounded-xl mt-2 p-3">
+      {#if emojiLoading}
+        <div class="text-xs text-black/30 dark:text-white/30 py-4 text-center">加载中...</div>
+      {:else if emojiTabs.length > 0}
+        <div class="flex gap-1 mb-3">
+          {#each emojiTabs as tab, index}
+            <button type="button" class:active={activeEmojiTab === index} onclick={() => activeEmojiTab = index}>{tab.name}</button>
+          {/each}
+        </div>
+        <div class="emoji-grid">
+          {#each emojiTabs[activeEmojiTab]?.items || [] as emoji}
+            <button type="button" title={emoji.code} onclick={() => insertEmoji(emoji.code)}>
+              <img src={emoji.src} alt={emoji.code} loading="lazy" />
+            </button>
+          {/each}
+        </div>
+      {:else}
+        <div class="text-xs text-black/30 dark:text-white/30 py-4 text-center">表情加载失败</div>
+      {/if}
+    </div>
+  {/if}
+{/snippet}
+
 {#snippet commentNode(comment, depth)}
   <div class="comment-item rounded-2xl transition" style="margin-left: {depth * 2}rem"
        class:p-4={depth === 0} class:p-3={depth > 0}>
@@ -332,7 +535,7 @@ function countAll(list) {
           {/if}
           <span class="text-xs text-black/25 dark:text-white/25">{formatTime(comment.createdAt || comment.time)}</span>
         </div>
-        <div class="text-sm text-black/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap break-words mb-2">{@html cleanContent(comment.comment)}</div>
+        <div class="comment-content text-sm text-black/70 dark:text-white/70 leading-relaxed whitespace-pre-wrap break-words mb-2">{@html renderContent(comment.comment)}</div>
         <div class="flex items-center gap-4">
           <button onclick={() => toggleLike(comment)}
             class="flex items-center gap-1 text-xs transition hover:text-[var(--primary)]"
@@ -354,7 +557,11 @@ function countAll(list) {
           <div class="mt-3 reply-form rounded-xl p-3">
             <textarea bind:value={replyContent} placeholder="回复 {comment.nick}..."
               class="comment-textarea w-full resize-none" rows="2"
+              bind:this={replyTextarea}
+              onfocus={() => activeEditor = 'reply'}
+              onpaste={handlePaste}
               onkeydown={(e) => handleReplyKeydown(e, comment)}></textarea>
+            {@render editorToolbar('reply')}
             <div class="flex justify-end gap-2 mt-2">
               <button onclick={cancelReply} class="px-3 py-1.5 rounded-lg text-xs font-bold text-black/40 dark:text-white/40 hover:text-black/70 dark:hover:text-white/70 transition">取消</button>
               <button onclick={() => submitReply(comment)} disabled={!replyContent.trim() || !nickname.trim()}
@@ -401,4 +608,36 @@ function countAll(list) {
   .comment-submit-btn:hover { filter: brightness(1.1); }
   .comment-item { background: var(--card-bg); border: 1px solid rgba(0, 0, 0, 0.04); }
   :global(.dark) .comment-item { border-color: rgba(255, 255, 255, 0.05); }
+  .comment-toolbar button {
+    min-width: 2rem; height: 2rem; padding: 0 0.5rem; border-radius: 0.625rem; font-size: 0.75rem; font-weight: 700;
+    color: rgba(0, 0, 0, 0.45); background: rgba(0, 0, 0, 0.03); transition: all 0.2s;
+  }
+  .comment-toolbar button:hover, .comment-toolbar button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.12); }
+  :global(.dark) .comment-toolbar button { color: rgba(255, 255, 255, 0.45); background: rgba(255, 255, 255, 0.05); }
+  :global(.dark) .comment-toolbar button:hover, :global(.dark) .comment-toolbar button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.18); }
+  .emoji-panel { background: rgba(0, 0, 0, 0.025); border: 1px solid rgba(0, 0, 0, 0.04); }
+  :global(.dark) .emoji-panel { background: rgba(255, 255, 255, 0.035); border-color: rgba(255, 255, 255, 0.05); }
+  .emoji-panel > div:first-child button {
+    height: 1.75rem; padding: 0 0.625rem; border-radius: 0.5rem; font-size: 0.75rem;
+    color: rgba(0, 0, 0, 0.45); background: transparent;
+  }
+  .emoji-panel > div:first-child button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.12); }
+  :global(.dark) .emoji-panel > div:first-child button { color: rgba(255, 255, 255, 0.45); }
+  .emoji-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(2rem, 1fr)); gap: 0.25rem;
+    max-height: 13rem; overflow-y: auto;
+  }
+  .emoji-grid button {
+    width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;
+  }
+  .emoji-grid button:hover { background: rgba(0, 0, 0, 0.05); }
+  :global(.dark) .emoji-grid button:hover { background: rgba(255, 255, 255, 0.06); }
+  .emoji-grid img, :global(.comment-emoji) { width: 1.35rem; height: 1.35rem; object-fit: contain; display: inline-block; vertical-align: -0.25rem; }
+  :global(.comment-content img:not(.comment-emoji)) {
+    max-width: 100%; max-height: 24rem; border-radius: 0.75rem; display: block; margin: 0.5rem 0; object-fit: contain;
+  }
+  :global(.comment-content p) { margin: 0.25rem 0; }
+  :global(.comment-content a) { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
+  :global(.comment-content code) { padding: 0.1rem 0.3rem; border-radius: 0.35rem; background: rgba(0, 0, 0, 0.05); }
+  :global(.dark) :global(.comment-content code) { background: rgba(255, 255, 255, 0.08); }
 </style>

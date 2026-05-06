@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Markdown from "@components/misc/Markdown.astro";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	entry: CollectionEntry<"thoughts">;
+	number: number;
+	style?: string;
+}
+
+const { entry, number, style } = Astro.props;
+const { Content } = await entry.render();
+
+const thoughtNumber = String(number).padStart(3, "0");
+const anchorId = `thought-${thoughtNumber}`;
+const published = entry.data.published;
+const timestamp = published.getTime();
+
+function formatDateTime(date: Date) {
+	return new Intl.DateTimeFormat("zh-CN", {
+		timeZone: "Asia/Shanghai",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+		hour: "2-digit",
+		minute: "2-digit",
+		hour12: false,
+	})
+		.format(date)
+		.replaceAll("/", "-");
+}
+
+function formatWeekday(date: Date) {
+	return new Intl.DateTimeFormat("zh-CN", {
+		timeZone: "Asia/Shanghai",
+		weekday: "short",
+	}).format(date);
+}
+---
+
+<li
+	id={anchorId}
+	class="thought-item relative grid min-w-0 scroll-mt-24 grid-cols-[1.25rem_minmax(0,1fr)] gap-3 md:grid-cols-[1.5rem_minmax(0,1fr)] md:gap-4 onload-animation"
+	style={style}
+>
+	<div class="relative flex justify-center pt-7">
+		<div class="absolute top-0 bottom-[-1.25rem] left-1/2 -translate-x-1/2 border-l border-dashed border-[var(--line-color)]"></div>
+		<div class="relative z-10 h-3.5 w-3.5 rounded-full border-2 border-[var(--primary)] bg-[var(--card-bg)] shadow-sm"></div>
+	</div>
+
+	<article class="thought-card card-base min-w-0 px-5 py-4 md:px-6 md:py-5 hover:border-[var(--primary)]">
+		<div class="mb-3 flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-50">
+			<a
+				href={`#${anchorId}`}
+				class="font-mono font-bold text-[var(--primary)] hover:opacity-70"
+				title="复制或打开这条碎碎念的链接"
+			>
+				#{thoughtNumber}
+			</a>
+			<span
+				class="thought-time-ago font-medium text-black/45 dark:text-white/45"
+				data-timestamp={timestamp}
+			>
+				{formatDateTime(published)}
+			</span>
+			<span class="font-mono text-black/35 dark:text-white/35">
+				{formatDateTime(published)}
+			</span>
+			<span class="hidden text-black/35 sm:inline dark:text-white/35">
+				{formatWeekday(published)}
+			</span>
+			{entry.data.pinned && (
+				<span class="inline-flex items-center gap-1 rounded-[var(--radius-large)] bg-[var(--btn-regular-bg)] px-2 py-0.5 text-[var(--btn-content)]">
+					<Icon name="material-symbols:push-pin-outline-rounded" class="text-[0.875rem]" />
+					置顶
+				</span>
+			)}
+			{entry.data.mood && (
+				<span class="inline-flex items-center gap-1 text-black/40 dark:text-white/40">
+					<Icon name="material-symbols:mood-outline-rounded" class="text-[0.875rem]" />
+					{entry.data.mood}
+				</span>
+			)}
+			{entry.data.location && (
+				<span class="inline-flex items-center gap-1 text-black/40 dark:text-white/40">
+					<Icon name="material-symbols:location-on-outline-rounded" class="text-[0.875rem]" />
+					{entry.data.location}
+				</span>
+			)}
+		</div>
+
+		{entry.data.title && (
+			<h2 class="mb-3 text-xl font-bold leading-snug text-90 md:text-[1.35rem]">
+				{entry.data.title}
+			</h2>
+		)}
+
+		<Markdown class="thought-body">
+			<Content />
+		</Markdown>
+
+		{entry.data.tags.length > 0 && (
+			<div class="mt-4 flex flex-wrap gap-2">
+				{entry.data.tags.map((tag) => (
+					<span class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-2 py-1 text-xs font-medium text-black/45 dark:text-white/45">
+						#{tag}
+					</span>
+				))}
+			</div>
+		)}
+	</article>
+</li>
+
+<style>
+	.thought-item:last-child > div > div:first-child {
+		display: none;
+	}
+
+	.thought-card :global(.thought-body) {
+		font-size: 0.95rem;
+		line-height: 1.9;
+		color: rgb(0 0 0 / 0.75);
+	}
+
+	:global(.dark) .thought-card :global(.thought-body) {
+		color: rgb(255 255 255 / 0.75);
+	}
+
+	.thought-card :global(.thought-body > :first-child) {
+		margin-top: 0;
+	}
+
+	.thought-card :global(.thought-body > :last-child) {
+		margin-bottom: 0;
+	}
+
+	.thought-card :global(.thought-body img) {
+		max-height: 28rem;
+		border-radius: var(--radius-large);
+		border: 1px solid var(--line-divider);
+		object-fit: contain;
+	}
+</style>

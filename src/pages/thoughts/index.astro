@@ -1,0 +1,114 @@
+---
+import ThoughtCard from "@components/ThoughtCard.astro";
+import Comments from "@components/widget/Comments.svelte";
+import MainGridLayout from "@layouts/MainGridLayout.astro";
+import { getSortedThoughts } from "@utils/content-utils";
+import { Icon } from "astro-icon/components";
+
+const thoughts = await getSortedThoughts();
+const chronologicalThoughts = [...thoughts].sort(
+	(a, b) => a.data.published.getTime() - b.data.published.getTime(),
+);
+const numberMap = new Map(
+	chronologicalThoughts.map((thought, index) => [thought.id, index + 1]),
+);
+const latestThought = [...thoughts].sort(
+	(a, b) => b.data.published.getTime() - a.data.published.getTime(),
+)[0];
+
+function formatDate(date?: Date) {
+	if (!date) return "暂无";
+
+	return new Intl.DateTimeFormat("zh-CN", {
+		timeZone: "Asia/Shanghai",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	})
+		.format(date)
+		.replaceAll("/", "-");
+}
+---
+
+<MainGridLayout title="碎碎念" description="日常随想与生活片段">
+	<section class="mb-5 flex flex-col gap-4 px-1 md:px-2 onload-animation">
+		<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+			<div>
+				<h1 class="mb-2 text-3xl font-bold leading-tight text-90 md:text-[2.25rem]">
+					碎碎念
+				</h1>
+				<p class="max-w-2xl text-sm font-medium leading-7 text-50 md:text-base">
+					不一定要写成文章的短句、图片、链接和一些临时想法。
+				</p>
+			</div>
+			<div class="flex flex-wrap gap-2 text-sm">
+				<div class="inline-flex items-center gap-2 rounded-[var(--radius-large)] border border-[var(--line-divider)] bg-[var(--card-bg)] px-3 py-2 text-50">
+					<Icon name="material-symbols:chat-bubble-outline-rounded" class="text-[var(--primary)]" />
+					{thoughts.length} 条
+				</div>
+				<div class="inline-flex items-center gap-2 rounded-[var(--radius-large)] border border-[var(--line-divider)] bg-[var(--card-bg)] px-3 py-2 text-50">
+					<Icon name="material-symbols:update-rounded" class="text-[var(--primary)]" />
+					{formatDate(latestThought?.data.published)}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{
+		thoughts.length > 0 ? (
+			<ol class="flex flex-col gap-5">
+				{thoughts.map((thought, index) => (
+					<ThoughtCard
+						entry={thought}
+						number={numberMap.get(thought.id) || index + 1}
+						style={`animation-delay: calc(var(--content-delay) + ${index * 50}ms)`}
+					/>
+				))}
+			</ol>
+		) : (
+			<div class="card-base px-6 py-10 text-center text-50 onload-animation">
+				这里还没有碎碎念。
+			</div>
+		)
+	}
+
+	<div style="margin-top: 10px;"></div>
+	<Comments client:only="svelte" />
+
+	<script>
+		function formatThoughtRelativeTime(timestamp: number) {
+			const diffSeconds = Math.round((timestamp - Date.now()) / 1000);
+			const absSeconds = Math.abs(diffSeconds);
+			const formatter = new Intl.RelativeTimeFormat("zh-CN", {
+				numeric: "auto",
+			});
+
+			if (absSeconds < 60) return "刚刚";
+			if (absSeconds < 3600) {
+				return formatter.format(Math.round(diffSeconds / 60), "minute");
+			}
+			if (absSeconds < 86400) {
+				return formatter.format(Math.round(diffSeconds / 3600), "hour");
+			}
+			if (absSeconds < 2592000) {
+				return formatter.format(Math.round(diffSeconds / 86400), "day");
+			}
+			if (absSeconds < 31536000) {
+				return formatter.format(Math.round(diffSeconds / 2592000), "month");
+			}
+			return formatter.format(Math.round(diffSeconds / 31536000), "year");
+		}
+
+		function updateThoughtTimes() {
+			document.querySelectorAll<HTMLElement>(".thought-time-ago").forEach((el) => {
+				const timestamp = Number(el.dataset.timestamp);
+				if (!Number.isFinite(timestamp)) return;
+				el.textContent = formatThoughtRelativeTime(timestamp);
+			});
+		}
+
+		updateThoughtTimes();
+		document.addEventListener("swup:content:replace", updateThoughtTimes);
+		document.addEventListener("astro:after-swap", updateThoughtTimes);
+	</script>
+</MainGridLayout>

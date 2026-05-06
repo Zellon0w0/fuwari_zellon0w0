@@ -1,8 +1,8 @@
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 
-export async function getSortedPosts() {
+export async function getSortedPosts(): Promise<CollectionEntry<"posts">[]> {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
@@ -23,6 +23,22 @@ export async function getSortedPosts() {
 	}
 
 	return sorted;
+}
+
+export async function getSortedThoughts(): Promise<CollectionEntry<"thoughts">[]> {
+	const allThoughts = await getCollection("thoughts", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	return allThoughts.sort((a, b) => {
+		if (a.data.pinned !== b.data.pinned) {
+			return a.data.pinned ? -1 : 1;
+		}
+
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
 }
 
 export type Tag = {

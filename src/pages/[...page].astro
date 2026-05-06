@@ -1,7 +1,8 @@
 ---
 import type { GetStaticPaths } from "astro";
 import PostPage from "../components/PostPage.astro";
-import { getSortedPosts } from "../utils/content-utils";
+import Profile from "../components/widget/Profile.astro";
+import { getSortedPosts, getSortedThoughts } from "../utils/content-utils";
 import MainGridLayout from "../layouts/MainGridLayout.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
@@ -16,20 +17,123 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const thoughts = await getSortedThoughts();
+const latestThoughts = [...thoughts]
+	.sort((a, b) => b.data.published.getTime() - a.data.published.getTime())
+	.slice(0, 3);
 
 // Only show the latest N posts on the homepage
-page.data = page.data.slice(0, LATEST_POSTS_COUNT);
+const totalPosts = page.data.length;
+const latestPostsPage = {
+	...page,
+	data: page.data.slice(0, LATEST_POSTS_COUNT),
+};
 
-const len = page.data.length;
+const latestUpdate = [latestPostsPage.data[0]?.data.published, latestThoughts[0]?.data.published]
+	.filter(Boolean)
+	.sort((a, b) => b.getTime() - a.getTime())[0];
+
+function formatDate(date?: Date) {
+	if (!date) return "暂无";
+
+	return new Intl.DateTimeFormat("zh-CN", {
+		timeZone: "Asia/Shanghai",
+		year: "numeric",
+		month: "2-digit",
+		day: "2-digit",
+	})
+		.format(date)
+		.replaceAll("/", "-");
+}
+
+function getThoughtExcerpt(body: string) {
+	return body
+		.replace(/!\[[^\]]*\]\([^)]*\)/g, "")
+		.replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+		.replace(/[`*_>#-]/g, "")
+		.replace(/\s+/g, " ")
+		.trim()
+		.slice(0, 92);
+}
 ---
 
-<MainGridLayout>
-    <PostPage page={page}></PostPage>
-    <a href={url('/articles/')}
-       class="btn-plain scale-animation rounded-[var(--radius-large)] h-[3.75rem] w-full px-4 flex items-center justify-center gap-2 font-bold text-[var(--primary)] border border-[var(--line-divider)] onload-animation"
-       style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}
-    >
-        {i18n(I18nKey.more)}
-        <Icon name="material-symbols:chevron-right-rounded" class="text-[1.25rem]" />
-    </a>
+<MainGridLayout hideSidebar={true}>
+	<div class="home-layout grid gap-5 lg:grid-cols-[17.5rem_minmax(0,1fr)] lg:items-stretch">
+		<Profile class="home-profile h-full onload-animation" />
+
+		<section class="home-welcome card-base flex h-full min-h-[18rem] flex-col justify-between px-6 py-6 md:px-8 md:py-7 onload-animation">
+			<div>
+				<div class="mb-3 inline-flex items-center gap-2 text-sm font-bold text-[var(--primary)]">
+					<Icon name="material-symbols:waving-hand-outline-rounded" class="text-[1.2rem]" />
+					欢迎来坐坐
+				</div>
+				<h1 class="mb-4 text-3xl font-bold leading-tight text-90 md:text-[2.4rem]">
+					这里是 Zellon 的小破站
+				</h1>
+				<p class="max-w-2xl text-base font-medium leading-8 text-75 md:text-lg">
+					记录折腾过的系统、工具和博客，也收下一些不够长但值得留下的日常想法。
+					不追求很正式，只希望每次回头看，都能想起当时为什么会这样折腾。
+				</p>
+				<div class="mt-6 rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-4 py-4 text-sm leading-7 text-75">
+					<div class="mb-1 font-bold text-90">慢慢折腾，慢慢记录。</div>
+					<div>长一点的经验放进文章，短一点的念头就留在碎碎念里。</div>
+				</div>
+			</div>
+			<div class="mt-6 grid gap-3 text-sm text-50 sm:grid-cols-3">
+				<div class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-3 py-3">
+					<div class="mb-1 font-bold text-90">{totalPosts}</div>
+					<div>篇文章</div>
+				</div>
+				<div class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-3 py-3">
+					<div class="mb-1 font-bold text-90">{thoughts.length}</div>
+					<div>条碎碎念</div>
+				</div>
+				<div class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-3 py-3">
+					<div class="mb-1 font-bold text-90">{formatDate(latestUpdate)}</div>
+					<div>最近更新</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="home-thoughts card-base px-5 py-5 onload-animation" style="animation-delay: calc(var(--content-delay) + 100ms)">
+			<div class="mb-4 flex items-center justify-between gap-3">
+				<h2 class="text-xl font-bold text-90">最新碎碎念</h2>
+				<a href={url("/thoughts/")} class="btn-plain rounded-[var(--radius-large)] px-2 py-1 text-sm font-bold text-[var(--primary)]">
+					<span>更多</span>
+					<Icon name="material-symbols:chevron-right-rounded" class="text-[1.1rem]" />
+				</a>
+			</div>
+			{
+				latestThoughts.length > 0 ? (
+					<div class="flex flex-col gap-4">
+						{latestThoughts.map((thought) => (
+							<a href={url("/thoughts/")} class="group block rounded-[var(--radius-large)] border border-[var(--line-divider)] bg-[var(--btn-plain-bg-hover)] px-4 py-3 transition hover:border-[var(--primary)]">
+								<div class="mb-2 flex items-center gap-2 text-xs font-medium text-50">
+									<Icon name="material-symbols:chat-bubble-outline-rounded" class="text-[var(--primary)]" />
+									<span>{formatDate(thought.data.published)}</span>
+								</div>
+								{thought.data.title && <div class="mb-1 font-bold leading-snug text-90 group-hover:text-[var(--primary)]">{thought.data.title}</div>}
+								<p class="line-clamp-3 text-sm leading-7 text-75">{getThoughtExcerpt(thought.body)}</p>
+							</a>
+						))}
+					</div>
+				) : (
+					<div class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-4 py-6 text-center text-sm text-50">
+						这里还没有碎碎念。
+					</div>
+				)
+			}
+		</section>
+
+		<section class="home-posts min-w-0 onload-animation" style="animation-delay: calc(var(--content-delay) + 150ms)">
+			<div class="mb-4 flex items-center justify-between gap-3 px-1">
+				<h2 class="text-2xl font-bold text-90">最新文章</h2>
+				<a href={url("/articles/")} class="btn-plain rounded-[var(--radius-large)] px-2 py-1 text-sm font-bold text-[var(--primary)]">
+					<span>{i18n(I18nKey.more)}</span>
+					<Icon name="material-symbols:chevron-right-rounded" class="text-[1.1rem]" />
+				</a>
+			</div>
+			<PostPage page={latestPostsPage}></PostPage>
+		</section>
+	</div>
 </MainGridLayout>

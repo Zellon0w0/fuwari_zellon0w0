@@ -23,6 +23,7 @@ interface Props {
 	setOGTypeArticle?: boolean;
 	headings?: MarkdownHeading[];
 	postPage?: boolean;
+	hideSidebar?: boolean;
 }
 
 const {
@@ -33,7 +34,9 @@ const {
 	setOGTypeArticle,
 	headings = [],
 	postPage = false,
+	hideSidebar = false,
 } = Astro.props;
+const shouldHideSidebar = postPage || hideSidebar;
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
@@ -66,7 +69,7 @@ const mainPanelTop = siteConfig.banner.enable
     <!-- The pointer-events-none here prevent blocking the click event of the TOC -->
     <div class="relative max-w-[var(--page-width)] mx-auto pointer-events-auto">
         <div id="main-grid" class:list={["transition duration-700 w-full left-0 right-0 grid grid-cols-[17.5rem_auto] grid-rows-[auto_1fr_auto] lg:grid-rows-[auto] mx-auto gap-4 px-0 md:px-4",
-            {"hide-sidebar": postPage}]}
+            {"hide-sidebar": shouldHideSidebar}]}
         >
             <!-- Banner image credit -->
             {hasBannerCredit && <a href={siteConfig.banner.credit.url} id="banner-credit" target="_blank" rel="noopener" aria-label="Visit image source"

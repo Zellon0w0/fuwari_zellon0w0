@@ -201,6 +201,9 @@ html {
 	#main-grid.hide-sidebar #sidebar {
 		@apply hidden;
 	}
+	#main-grid.hide-sidebar > main {
+		grid-column: 1 / -1;
+	}
 }
 </style>
 
@@ -422,8 +425,9 @@ const setup = () => {
 		// toggle sidebar visibility based on whether it's a post page
 		const mainGrid = document.getElementById('main-grid')
 		if (mainGrid) {
-			const isPostPage = visit.to.url.includes('/posts/')
-			if (isPostPage) {
+			const shouldHideSidebar = visit.to.url.includes('/posts/') ||
+				pathsEqual(visit.to.url, url('/'))
+			if (shouldHideSidebar) {
 				mainGrid.classList.add('hide-sidebar')
 			} else {
 				mainGrid.classList.remove('hide-sidebar')

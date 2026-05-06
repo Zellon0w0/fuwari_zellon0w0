@@ -2,13 +2,12 @@
 
 @layer components {
     .card-base {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
+        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition border border-[var(--line-divider)];
     }
     .navbar-surface {
         background: var(--card-bg);
-        background: color-mix(in srgb, var(--card-bg) 95%, transparent);
-        -webkit-backdrop-filter: blur(12px) saturate(140%);
-        backdrop-filter: blur(12px) saturate(140%);
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
     }
     .navbar-surface-main {
         border-bottom: 1px solid var(--line-divider);
@@ -17,20 +16,20 @@
         @apply transition;
     }
     .card-shadow {
-        @apply drop-shadow-[0_2px_4px_rgba(0,0,0,0.005)]
+        @apply shadow-none
     }
     .expand-animation {
-        @apply relative before:ease-out before:transition active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0
-        before:absolute before:rounded-[inherit] before:inset-0 before:scale-[0.85] hover:before:scale-100 before:-z-10
+        @apply relative before:ease-out before:transition-colors active:bg-none hover:before:bg-[var(--btn-plain-bg-hover)] active:before:bg-[var(--btn-plain-bg-active)] z-0
+        before:absolute before:rounded-[inherit] before:inset-0 before:-z-10
     }
     .link {
-        @apply transition rounded-md p-1 -m-1 expand-animation;
+        @apply transition rounded-[var(--radius-large)] p-1 -m-1 expand-animation;
     }
     .link-lg {
-        @apply transition rounded-md p-1.5 -m-1.5 expand-animation;
+        @apply transition rounded-[var(--radius-large)] p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none
+        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition border border-[var(--line-divider)] shadow-none dark:shadow-none
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
@@ -40,7 +39,7 @@
     }
 
     .btn-card {
-        @apply transition flex items-center justify-center bg-[var(--card-bg)] hover:bg-[var(--btn-card-bg-hover)]
+        @apply transition flex items-center justify-center bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-card-bg-hover)]
         active:bg-[var(--btn-card-bg-active)]
     }
     .btn-card.disabled {
@@ -60,12 +59,12 @@
         }
     }
     .btn-regular {
-        @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
+        @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
         text-[var(--btn-content)] dark:text-white/75
     }
 
     .link-underline {
-        @apply transition underline decoration-2 decoration-dashed decoration-[var(--link-underline)]
+        @apply transition underline decoration-2 decoration-solid decoration-[var(--link-underline)]
         hover:decoration-[var(--link-hover)] active:decoration-[var(--link-active)] underline-offset-[0.25rem]
     }
 
@@ -103,7 +102,7 @@
     }
 
     .meta-icon {
-        @apply w-8 h-8 transition rounded-md flex items-center justify-center bg-[var(--btn-regular-bg)]
+        @apply w-8 h-8 transition rounded-[var(--radius-large)] flex items-center justify-center bg-[var(--btn-regular-bg)] border border-[var(--line-divider)]
         text-[var(--btn-content)] mr-2
     }
     .with-divider {
@@ -155,7 +154,7 @@
     width: 10%;
     height: 100%;
     left: calc(50% - 1px);
-    border-left: 2px dashed var(--line-color);
+    border-left: 1px solid var(--line-color);
     pointer-events: none;
     transition: all 0.3s;
     transform: translateY(-50%);

@@ -26,7 +26,7 @@ const len = page.data.length;
 <MainGridLayout>
     <PostPage page={page}></PostPage>
     <a href={url('/articles/')}
-       class="btn-plain scale-animation rounded-2xl h-[3.75rem] w-full px-4 flex items-center justify-center gap-2 font-bold text-[var(--primary)] onload-animation"
+       class="btn-plain scale-animation rounded-[var(--radius-large)] h-[3.75rem] w-full px-4 flex items-center justify-center gap-2 font-bold text-[var(--primary)] border border-[var(--line-divider)] onload-animation"
        style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}
     >
         {i18n(I18nKey.more)}

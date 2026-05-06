@@ -430,7 +430,7 @@ function countAll(list) {
   </div>
 
   <!-- 评论表单 -->
-  <div class="comment-form rounded-2xl p-5 mb-6 transition">
+  <div class="comment-form rounded-[var(--radius-large)] p-5 mb-6 transition">
     <div class="flex gap-4 mb-4">
       <div class="flex-shrink-0">
         <div class="w-16 h-16 rounded-full overflow-hidden bg-black/5 dark:bg-white/10 border-2 border-[var(--primary)]/20 transition">
@@ -455,7 +455,7 @@ function countAll(list) {
     <div class="flex justify-between items-center mt-3">
       <span class="text-xs text-black/25 dark:text-white/25">Ctrl+Enter 发送</span>
       <button onclick={submit} disabled={!nickname.trim() || !content.trim() || submitting}
-        class="comment-submit-btn px-6 py-2 rounded-xl text-sm font-bold transition active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed">
+        class="comment-submit-btn px-6 py-2 rounded-[var(--radius-large)] text-sm font-bold transition active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed">
         {submitting ? '发送中...' : '发送'}
       </button>
     </div>
@@ -490,7 +490,7 @@ function countAll(list) {
   </div>
 
   {#if emojiPanelOpen && activeEditor === editor}
-    <div class="emoji-panel rounded-xl mt-2 p-3">
+    <div class="emoji-panel rounded-[var(--radius-large)] mt-2 p-3">
       {#if emojiLoading}
         <div class="text-xs text-black/30 dark:text-white/30 py-4 text-center">加载中...</div>
       {:else if emojiTabs.length > 0}
@@ -514,7 +514,7 @@ function countAll(list) {
 {/snippet}
 
 {#snippet commentNode(comment, depth)}
-  <div class="comment-item rounded-2xl transition" style="margin-left: {depth * 2}rem"
+  <div class="comment-item rounded-[var(--radius-large)] transition" style="margin-left: {depth * 2}rem"
        class:p-4={depth === 0} class:p-3={depth > 0}>
     <div class="flex gap-3">
       <div class="flex-shrink-0">
@@ -554,7 +554,7 @@ function countAll(list) {
           </button>
         </div>
         {#if replyingTo === comment.objectId}
-          <div class="mt-3 reply-form rounded-xl p-3">
+          <div class="mt-3 reply-form rounded-[var(--radius-large)] p-3">
             <textarea bind:value={replyContent} placeholder="回复 {comment.nick}..."
               class="comment-textarea w-full resize-none" rows="2"
               bind:this={replyTextarea}
@@ -582,43 +582,43 @@ function countAll(list) {
 {/snippet}
 
 <style>
-  .comment-form { background: var(--card-bg); border: 1px solid rgba(0, 0, 0, 0.05); }
-  :global(.dark) .comment-form { border-color: rgba(255, 255, 255, 0.06); }
+  .comment-form { background: var(--card-bg); border: 1px solid var(--line-divider); }
+  :global(.dark) .comment-form { border-color: var(--line-divider); }
   .reply-form { background: rgba(0, 0, 0, 0.02); }
   :global(.dark) .reply-form { background: rgba(255, 255, 255, 0.03); }
   .comment-input {
-    height: 2.5rem; padding: 0 0.75rem; border-radius: 0.75rem; font-size: 0.875rem;
-    background: rgba(0, 0, 0, 0.03); border: 1px solid transparent; color: inherit; outline: none; transition: all 0.2s;
+    height: 2.5rem; padding: 0 0.75rem; border-radius: var(--radius-large); font-size: 0.875rem;
+    background: rgba(0, 0, 0, 0.03); border: 1px solid var(--line-divider); color: inherit; outline: none; transition: all 0.2s;
   }
-  .comment-input:focus { border-color: var(--primary); background: transparent; box-shadow: 0 0 0 3px oklch(0.75 0.14 var(--hue) / 0.1); }
+  .comment-input:focus { border-color: var(--primary); background: transparent; box-shadow: none; }
   .comment-input::placeholder { color: rgba(0, 0, 0, 0.25); }
   :global(.dark) .comment-input { background: rgba(255, 255, 255, 0.05); }
   :global(.dark) .comment-input:focus { background: transparent; }
   :global(.dark) .comment-input::placeholder { color: rgba(255, 255, 255, 0.25); }
   .comment-textarea {
-    padding: 0.75rem 1rem; border-radius: 1rem; font-size: 0.875rem;
-    background: rgba(0, 0, 0, 0.03); border: 1px solid transparent; color: inherit; outline: none; transition: all 0.2s; line-height: 1.6;
+    padding: 0.75rem 1rem; border-radius: var(--radius-large); font-size: 0.875rem;
+    background: rgba(0, 0, 0, 0.03); border: 1px solid var(--line-divider); color: inherit; outline: none; transition: all 0.2s; line-height: 1.6;
   }
-  .comment-textarea:focus { border-color: var(--primary); background: transparent; box-shadow: 0 0 0 3px oklch(0.75 0.14 var(--hue) / 0.1); }
+  .comment-textarea:focus { border-color: var(--primary); background: transparent; box-shadow: none; }
   .comment-textarea::placeholder { color: rgba(0, 0, 0, 0.25); }
   :global(.dark) .comment-textarea { background: rgba(255, 255, 255, 0.05); }
   :global(.dark) .comment-textarea:focus { background: transparent; }
   :global(.dark) .comment-textarea::placeholder { color: rgba(255, 255, 255, 0.25); }
   .comment-submit-btn { background: var(--primary); color: white; }
   .comment-submit-btn:hover { filter: brightness(1.1); }
-  .comment-item { background: var(--card-bg); border: 1px solid rgba(0, 0, 0, 0.04); }
-  :global(.dark) .comment-item { border-color: rgba(255, 255, 255, 0.05); }
+  .comment-item { background: var(--card-bg); border: 1px solid var(--line-divider); }
+  :global(.dark) .comment-item { border-color: var(--line-divider); }
   .comment-toolbar button {
-    min-width: 2rem; height: 2rem; padding: 0 0.5rem; border-radius: 0.625rem; font-size: 0.75rem; font-weight: 700;
-    color: rgba(0, 0, 0, 0.45); background: rgba(0, 0, 0, 0.03); transition: all 0.2s;
+    min-width: 2rem; height: 2rem; padding: 0 0.5rem; border-radius: var(--radius-large); font-size: 0.75rem; font-weight: 700;
+    color: rgba(0, 0, 0, 0.45); background: rgba(0, 0, 0, 0.03); border: 1px solid var(--line-divider); transition: all 0.2s;
   }
   .comment-toolbar button:hover, .comment-toolbar button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.12); }
   :global(.dark) .comment-toolbar button { color: rgba(255, 255, 255, 0.45); background: rgba(255, 255, 255, 0.05); }
   :global(.dark) .comment-toolbar button:hover, :global(.dark) .comment-toolbar button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.18); }
-  .emoji-panel { background: rgba(0, 0, 0, 0.025); border: 1px solid rgba(0, 0, 0, 0.04); }
-  :global(.dark) .emoji-panel { background: rgba(255, 255, 255, 0.035); border-color: rgba(255, 255, 255, 0.05); }
+  .emoji-panel { background: rgba(0, 0, 0, 0.025); border: 1px solid var(--line-divider); }
+  :global(.dark) .emoji-panel { background: rgba(255, 255, 255, 0.035); border-color: var(--line-divider); }
   .emoji-panel > div:first-child button {
-    height: 1.75rem; padding: 0 0.625rem; border-radius: 0.5rem; font-size: 0.75rem;
+    height: 1.75rem; padding: 0 0.625rem; border-radius: var(--radius-large); font-size: 0.75rem;
     color: rgba(0, 0, 0, 0.45); background: transparent;
   }
   .emoji-panel > div:first-child button.active { color: var(--primary); background: oklch(0.75 0.14 var(--hue) / 0.12); }
@@ -628,13 +628,13 @@ function countAll(list) {
     max-height: 13rem; overflow-y: auto;
   }
   .emoji-grid button {
-    width: 2rem; height: 2rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center;
+    width: 2rem; height: 2rem; border-radius: var(--radius-large); display: flex; align-items: center; justify-content: center;
   }
   .emoji-grid button:hover { background: rgba(0, 0, 0, 0.05); }
   :global(.dark) .emoji-grid button:hover { background: rgba(255, 255, 255, 0.06); }
   .emoji-grid img, :global(.comment-emoji) { width: 1.35rem; height: 1.35rem; object-fit: contain; display: inline-block; vertical-align: -0.25rem; }
   :global(.comment-content img:not(.comment-emoji)) {
-    max-width: 100%; max-height: 24rem; border-radius: 0.75rem; display: block; margin: 0.5rem 0; object-fit: contain;
+    max-width: 100%; max-height: 24rem; border-radius: var(--radius-large); display: block; margin: 0.5rem 0; object-fit: contain;
   }
   :global(.comment-content p) { margin: 0.25rem 0; }
   :global(.comment-content a) { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }

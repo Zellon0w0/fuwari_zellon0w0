@@ -35,15 +35,15 @@
     }
 
     a:not(.no-styling) {
-        @apply relative bg-none link font-medium text-[var(--primary)]
-        underline decoration-[var(--link-underline)] decoration-1 decoration-dashed underline-offset-4;
+        @apply relative bg-none transition rounded-[var(--radius-large)] p-1 -m-1 font-medium text-[var(--primary)]
+        underline decoration-[var(--link-underline)] decoration-1 decoration-solid underline-offset-4;
         box-decoration-break: clone;
         -webkit-box-decoration-break: clone;
     
         &:hover, &:active {
             @apply decoration-transparent;
             background: var(--btn-plain-bg-hover);
-            border-bottom: 1px dashed var(--link-hover);
+            border-bottom: 1px solid var(--link-hover);
             text-decoration: none;
         }
     }
@@ -75,7 +75,7 @@
 
     pre {
         @apply bg-[var(--codeblock-bg)] !important;
-        @apply rounded-xl px-5;
+        @apply rounded-[var(--radius-large)] px-5 border border-[var(--line-divider)];
 
         code {
             @apply bg-transparent text-sm p-0;

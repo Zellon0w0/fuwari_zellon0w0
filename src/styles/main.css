@@ -2,10 +2,11 @@
 
 @layer components {
     .card-base {
-        @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition border border-[var(--line-divider)];
+        @apply rounded-[var(--radius-large)] overflow-hidden transition border border-[var(--line-divider)];
+        background: var(--surface-gradient);
     }
     .navbar-surface {
-        background: var(--card-bg);
+        background: var(--surface-gradient);
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
     }
@@ -29,7 +30,8 @@
         @apply transition rounded-[var(--radius-large)] p-1.5 -m-1.5 expand-animation;
     }
     .float-panel {
-        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition border border-[var(--line-divider)] shadow-none dark:shadow-none
+        @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden transition border border-[var(--line-divider)] shadow-none dark:shadow-none;
+        background: var(--surface-gradient);
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none
@@ -39,8 +41,14 @@
     }
 
     .btn-card {
-        @apply transition flex items-center justify-center bg-[var(--card-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-card-bg-hover)]
-        active:bg-[var(--btn-card-bg-active)]
+        @apply transition flex items-center justify-center border border-[var(--line-divider)];
+        background: var(--surface-gradient);
+    }
+    .btn-card:hover {
+        background: var(--control-gradient-hover);
+    }
+    .btn-card:active {
+        background: var(--control-gradient-active);
     }
     .btn-card.disabled {
         @apply pointer-events-none text-black/10 dark:text-white/10
@@ -59,8 +67,15 @@
         }
     }
     .btn-regular {
-        @apply transition flex items-center justify-center bg-[var(--btn-regular-bg)] border border-[var(--line-divider)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)]
-        text-[var(--btn-content)] dark:text-white/75
+        @apply transition flex items-center justify-center border border-[var(--line-divider)]
+        text-[var(--btn-content)] dark:text-white/75;
+        background: var(--control-gradient);
+    }
+    .btn-regular:hover {
+        background: var(--control-gradient-hover);
+    }
+    .btn-regular:active {
+        background: var(--control-gradient-active);
     }
 
     .link-underline {
@@ -102,8 +117,9 @@
     }
 
     .meta-icon {
-        @apply w-8 h-8 transition rounded-[var(--radius-large)] flex items-center justify-center bg-[var(--btn-regular-bg)] border border-[var(--line-divider)]
-        text-[var(--btn-content)] mr-2
+        @apply w-8 h-8 transition rounded-[var(--radius-large)] flex items-center justify-center border border-[var(--line-divider)]
+        text-[var(--btn-content)] mr-2;
+        background: var(--control-gradient);
     }
     .with-divider {
         @apply before:content-['/'] before:ml-1.5 before:mr-1.5 before:text-[var(--meta-divider)] before:text-sm
@@ -162,4 +178,14 @@
 
 .collapsed {
     height: var(--collapsedHeight);
+}
+
+html {
+    background-color: var(--page-bg);
+    background-image: var(--page-gradient);
+    background-attachment: fixed;
+}
+
+body {
+    background: transparent;
 }

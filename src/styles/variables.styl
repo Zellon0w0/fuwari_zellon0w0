@@ -11,6 +11,28 @@ rainbow-dark = linear-gradient(to right, oklch(0.70 0.10 0), oklch(0.70 0.10 30)
 :root
   --radius-large 0.5rem
   --content-delay 150ms
+  --pink-base: rgb(255, 182, 193)
+  --pink-soft: rgb(255, 242, 245)
+  --pink-strong: rgb(214, 82, 122)
+  --page-gradient: linear-gradient(135deg, rgb(255, 250, 252) 0%, rgb(255, 242, 246) 42%, rgb(255, 224, 231) 100%)
+  --surface-gradient: linear-gradient(135deg, rgb(255, 255, 255) 0%, rgb(255, 250, 252) 48%, rgb(255, 240, 244) 100%)
+  --control-gradient: linear-gradient(135deg, rgb(255, 244, 247) 0%, rgb(255, 218, 226) 100%)
+  --control-gradient-hover: linear-gradient(135deg, rgb(255, 236, 241) 0%, rgb(255, 202, 214) 100%)
+  --control-gradient-active: linear-gradient(135deg, rgb(255, 224, 232) 0%, rgb(255, 190, 204) 100%)
+  --accent-gradient: linear-gradient(135deg, rgb(255, 182, 193) 0%, rgb(232, 105, 147) 100%)
+  --accent-gradient-strong: linear-gradient(135deg, rgb(232, 105, 147) 0%, rgb(196, 64, 112) 100%)
+
+:root.dark
+  --pink-base: rgb(255, 182, 193)
+  --pink-soft: rgb(58, 34, 43)
+  --pink-strong: rgb(255, 168, 192)
+  --page-gradient: linear-gradient(135deg, rgb(30, 18, 24) 0%, rgb(38, 22, 30) 48%, rgb(52, 30, 39) 100%)
+  --surface-gradient: linear-gradient(135deg, rgb(36, 25, 31) 0%, rgb(42, 27, 35) 52%, rgb(54, 32, 43) 100%)
+  --control-gradient: linear-gradient(135deg, rgb(58, 35, 45) 0%, rgb(70, 40, 53) 100%)
+  --control-gradient-hover: linear-gradient(135deg, rgb(70, 41, 54) 0%, rgb(86, 48, 64) 100%)
+  --control-gradient-active: linear-gradient(135deg, rgb(86, 48, 64) 0%, rgb(104, 56, 76) 100%)
+  --accent-gradient: linear-gradient(135deg, rgb(255, 182, 193) 0%, rgb(255, 137, 174) 100%)
+  --accent-gradient-strong: linear-gradient(135deg, rgb(255, 154, 184) 0%, rgb(228, 96, 145) 100%)
 
 /* An util to define variables that vary with light and dark mode */
 define(vars)
@@ -23,21 +45,21 @@ define(vars)
         {key}: value[1]
 
 define({
-  --primary: oklch(0.62 0.19 var(--hue)) oklch(0.78 0.15 var(--hue))
-  --page-bg: oklch(0.965 0.032 var(--hue)) oklch(0.16 0.022 var(--hue))
-  --card-bg: oklch(0.995 0.018 var(--hue)) oklch(0.205 0.018 var(--hue))
+  --primary: rgb(214, 82, 122) rgb(255, 168, 192)
+  --page-bg: rgb(255, 242, 246) rgb(30, 18, 24)
+  --card-bg: rgb(255, 253, 254) rgb(36, 25, 31)
 
-  --btn-content: oklch(0.48 0.16 var(--hue)) oklch(0.82 0.12 var(--hue))
+  --btn-content: rgb(169, 54, 96) rgb(255, 198, 210)
 
-  --btn-regular-bg: oklch(0.94 0.045 var(--hue)) oklch(0.29 0.04 var(--hue))
-  --btn-regular-bg-hover: oklch(0.91 0.065 var(--hue)) oklch(0.34 0.05 var(--hue))
-  --btn-regular-bg-active: oklch(0.87 0.08 var(--hue)) oklch(0.39 0.06 var(--hue))
+  --btn-regular-bg: rgb(255, 232, 237) rgb(58, 35, 45)
+  --btn-regular-bg-hover: rgb(255, 218, 226) rgb(70, 41, 54)
+  --btn-regular-bg-active: rgb(255, 202, 214) rgb(86, 48, 64)
 
-  --btn-plain-bg-hover: oklch(0.93 0.038 var(--hue)) oklch(0.28 0.038 var(--hue))
-  --btn-plain-bg-active: oklch(0.89 0.052 var(--hue)) oklch(0.33 0.046 var(--hue))
+  --btn-plain-bg-hover: rgb(255, 238, 242) rgb(58, 35, 45)
+  --btn-plain-bg-active: rgb(255, 224, 232) rgb(70, 41, 54)
 
-  --btn-card-bg-hover: oklch(0.95 0.032 var(--hue)) oklch(0.28 0.034 var(--hue))
-  --btn-card-bg-active: oklch(0.9 0.052 var(--hue)) oklch(0.34 0.046 var(--hue))
+  --btn-card-bg-hover: rgb(255, 238, 242) rgb(58, 35, 45)
+  --btn-card-bg-active: rgb(255, 224, 232) rgb(70, 41, 54)
 
   --enter-btn-bg: var(--btn-regular-bg)
   --enter-btn-bg-hover: var(--btn-regular-bg-hover)
@@ -47,22 +69,22 @@ define({
 
   --title-active: oklch(0.6 0.1 var(--hue))
 
-  --line-divider: oklch(0.83 0.045 var(--hue)) oklch(0.34 0.035 var(--hue))
+  --line-divider: rgb(239, 188, 199) rgb(90, 54, 68)
 
-  --line-color: oklch(0.78 0.055 var(--hue)) oklch(0.42 0.04 var(--hue))
-  --meta-divider: oklch(0.66 0.055 var(--hue)) oklch(0.56 0.045 var(--hue))
+  --line-color: rgb(229, 163, 178) rgb(118, 70, 86)
+  --meta-divider: rgb(172, 105, 121) rgb(176, 115, 133)
 
   --inline-code-bg: var(--btn-regular-bg)
   --inline-code-color: var(--btn-content)
-  --selection-bg: oklch(0.88 0.08 var(--hue)) oklch(0.4 0.08 var(--hue))
-  --codeblock-selection: oklch(0.88 0.08 var(--hue)) oklch(0.4 0.08 var(--hue))
-  --codeblock-bg: oklch(0.955 0.02 var(--hue)) oklch(0.19 0.018 var(--hue))
+  --selection-bg: rgb(255, 210, 220) rgb(104, 56, 76)
+  --codeblock-selection: rgb(255, 210, 220) rgb(104, 56, 76)
+  --codeblock-bg: rgb(255, 247, 249) rgb(32, 22, 28)
 
-  --license-block-bg: oklch(0.96 0.025 var(--hue)) oklch(0.24 0.022 var(--hue))
+  --license-block-bg: rgb(255, 246, 248) rgb(44, 28, 36)
 
-  --link-underline: oklch(0.74 0.13 var(--hue)) oklch(0.56 0.11 var(--hue))
-  --link-hover: oklch(0.91 0.06 var(--hue)) oklch(0.34 0.06 var(--hue))
-  --link-active: oklch(0.86 0.075 var(--hue)) oklch(0.4 0.07 var(--hue))
+  --link-underline: rgb(226, 134, 158) rgb(204, 108, 142)
+  --link-hover: rgb(255, 226, 233) rgb(76, 43, 57)
+  --link-active: rgb(255, 206, 218) rgb(98, 52, 72)
 
   --float-panel-bg: var(--card-bg)
 
@@ -89,9 +111,9 @@ define({
   --admonitions-color-warning: oklch(0.7 0.14 60) oklch(0.75 0.14 60)
   --admonitions-color-caution: oklch(0.6 0.2 25) oklch(0.65 0.2 25)
 
-  --toc-badge-bg: oklch(0.91 0.06 var(--hue)) var(--btn-regular-bg)
-  --toc-btn-hover: oklch(0.93 0.035 var(--hue)) oklch(0.27 0.035 var(--hue))
-  --toc-btn-active: oklch(0.88 0.05 var(--hue)) oklch(0.33 0.046 var(--hue))
+  --toc-badge-bg: rgb(255, 226, 233) var(--btn-regular-bg)
+  --toc-btn-hover: rgb(255, 238, 242) rgb(58, 35, 45)
+  --toc-btn-active: rgb(255, 224, 232) rgb(76, 43, 57)
   --toc-width: calc((100vw - var(--page-width)) / 2 - 1rem)
   --toc-item-active: oklch(0.70 0.13 var(--hue)) oklch(0.35 0.07 var(--hue))
 })

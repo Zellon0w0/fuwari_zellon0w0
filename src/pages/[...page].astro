@@ -1,13 +1,13 @@
 ---
-import type { GetStaticPaths } from "astro";
-import PostPage from "../components/PostPage.astro";
-import Profile from "../components/widget/Profile.astro";
-import { getSortedPosts, getSortedThoughts } from "../utils/content-utils";
-import MainGridLayout from "../layouts/MainGridLayout.astro";
 import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
-import { url } from "../utils/url-utils";
+import type { GetStaticPaths } from "astro";
 import { Icon } from "astro-icon/components";
+import PostPage from "../components/PostPage.astro";
+import Profile from "../components/widget/Profile.astro";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { getSortedPosts, getSortedThoughts } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
 
 const LATEST_POSTS_COUNT = 5;
 
@@ -29,7 +29,10 @@ const latestPostsPage = {
 	data: page.data.slice(0, LATEST_POSTS_COUNT),
 };
 
-const latestUpdate = [latestPostsPage.data[0]?.data.published, latestThoughts[0]?.data.published]
+const latestUpdate = [
+	latestPostsPage.data[0]?.data.published,
+	latestThoughts[0]?.data.published,
+]
 	.filter(Boolean)
 	.sort((a, b) => b.getTime() - a.getTime())[0];
 
@@ -71,12 +74,12 @@ function getThoughtExcerpt(body: string) {
 					这里是 Zellon 的小破站
 				</h1>
 				<p class="max-w-2xl text-base font-medium leading-8 text-75 md:text-lg">
-					记录折腾过的系统、工具和博客，也收下一些不够长但值得留下的日常想法。
-					不追求很正式，只希望每次回头看，都能想起当时为什么会这样折腾。
+					记录感兴趣的事物和折腾的过程，保留一些不够长但值得留下的日常想法。
+					
 				</p>
 				<div class="mt-6 rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-4 py-4 text-sm leading-7 text-75">
-					<div class="mb-1 font-bold text-90">慢慢折腾，慢慢记录。</div>
-					<div>长一点的经验放进文章，短一点的念头就留在碎碎念里。</div>
+					<div class="mb-1 font-bold text-90">联系我：</div>
+					<div>Zellon0w0@163.com</div>
 				</div>
 			</div>
 			<div class="mt-6 grid gap-3 text-sm text-50 sm:grid-cols-3">

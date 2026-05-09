@@ -196,13 +196,14 @@ html {
 		@apply top-[calc(1rem_-_var(--banner-height-extend))]
 	}
 	#main-grid.hide-sidebar {
-		grid-template-columns: auto !important;
+		grid-template-columns: minmax(0, 1fr) !important;
 	}
 	#main-grid.hide-sidebar #sidebar {
 		@apply hidden;
 	}
-	#main-grid.hide-sidebar > main {
-		grid-column: 1 / -1;
+	#main-grid.hide-sidebar > main,
+	#main-grid.hide-sidebar > .footer {
+		grid-column: 1 / 2;
 	}
 }
 </style>

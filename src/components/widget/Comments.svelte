@@ -5,8 +5,10 @@ import { onMount, tick } from 'svelte';
 const EMOJI_PRESETS = [
   'https://unpkg.com/@waline/emojis@1.4.0/qq',
   'https://unpkg.com/@waline/emojis@1.4.0/bmoji',
+  'https://unpkg.com/@waline/emojis@1.4.0/bilibili',
+  'https://unpkg.com/@waline/emojis@1.4.0/tieba',
+  'https://unpkg.com/@waline/emojis@1.4.0/weibo',
 ];
-const MAX_IMAGE_SIZE = 128 * 1024;
 
 let nickname = $state('');
 let email = $state('');
@@ -27,7 +29,6 @@ let emojiLoading = $state(false);
 let activeEditor = $state('content');
 let mainTextarea;
 let replyTextarea;
-let imageInput;
 
 onMount(() => {
   restoreUser();
@@ -130,11 +131,6 @@ function getCommentLink(comment) {
   return normalizeWebsiteUrl(comment.link);
 }
 
-function normalizeImageUrl(value) {
-  const normalized = normalizeWebsiteUrl(value);
-  return normalized || '';
-}
-
 function resolveEmojiAsset(folder, prefix, item, type) {
   return `${folder.replace(/\/+$/, '')}/${prefix || ''}${item}${type ? `.${type}` : ''}`;
 }
@@ -196,64 +192,9 @@ async function insertText(before, after = '', fallback = '') {
   );
 }
 
-async function insertBlock(prefix, fallback = '') {
-  const textarea = getActiveTextarea();
-  const current = getEditorValue();
-  const start = textarea?.selectionStart ?? current.length;
-  const end = textarea?.selectionEnd ?? current.length;
-  const selected = current.slice(start, end) || fallback;
-  const needsLeadingNewline = start > 0 && current[start - 1] !== '\n';
-  const insert = `${needsLeadingNewline ? '\n' : ''}${prefix}${selected}`;
-  const next = `${current.slice(0, start)}${insert}${current.slice(end)}`;
-
-  setEditorValue(next);
-  await tick();
-  textarea?.focus();
-}
-
 function insertEmoji(code) {
   insertText(`:${code}:`);
   emojiPanelOpen = false;
-}
-
-function promptImageUrl() {
-  const url = normalizeImageUrl(window.prompt('图片 URL') || '');
-  if (url) insertText(`![image](${url})`);
-}
-
-function handleImageUpload(event) {
-  const file = event.currentTarget.files?.[0];
-  event.currentTarget.value = '';
-  insertImageFile(file);
-}
-
-function handlePaste(event) {
-  const file = Array.from(event.clipboardData?.files || []).find((item) =>
-    item.type.startsWith('image/'),
-  );
-  if (!file) return;
-
-  event.preventDefault();
-  insertImageFile(file);
-}
-
-function insertImageFile(file) {
-  if (!file) return;
-
-  if (!file.type.startsWith('image/')) {
-    window.alert('只能上传图片文件');
-    return;
-  }
-
-  if (file.size > MAX_IMAGE_SIZE) {
-    window.alert('图片不能超过 128KB');
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = () => insertText(`![${file.name}](${reader.result})`);
-  reader.onerror = () => window.alert('图片读取失败');
-  reader.readAsDataURL(file);
 }
 
 function toggleEmojiPanel(editor) {
@@ -450,7 +391,7 @@ function countAll(list) {
         <input bind:value={website} type="url" placeholder="个人网站" class="comment-input" />
       </div>
     </div>
-    <textarea bind:value={content} bind:this={mainTextarea} placeholder="写下你的想法... (Ctrl+Enter 发送)" class="comment-textarea w-full resize-none" rows="4" onfocus={() => activeEditor = 'content'} onpaste={handlePaste} onkeydown={handleKeydown}></textarea>
+    <textarea bind:value={content} bind:this={mainTextarea} placeholder="写下你的想法... 支持表情和 Markdown (Ctrl+Enter 发送)" class="comment-textarea w-full resize-none" rows="4" onfocus={() => activeEditor = 'content'} onkeydown={handleKeydown}></textarea>
     {@render editorToolbar('content')}
     <div class="flex justify-between items-center mt-3">
       <span class="text-xs text-black/25 dark:text-white/25">Ctrl+Enter 发送</span>
@@ -475,18 +416,18 @@ function countAll(list) {
   {/if}
 </div>
 
-<input bind:this={imageInput} type="file" accept="image/*" class="hidden" onchange={handleImageUpload} />
-
 {#snippet editorToolbar(editor)}
   <div class="comment-toolbar flex items-center gap-1 mt-3">
-    <button type="button" title="加粗" onclick={() => { activeEditor = editor; insertText('**', '**', '文字'); }}>B</button>
-    <button type="button" title="斜体" onclick={() => { activeEditor = editor; insertText('*', '*', '文字'); }}><em>I</em></button>
-    <button type="button" title="代码" onclick={() => { activeEditor = editor; insertText('`', '`', 'code'); }}>&lt;/&gt;</button>
-    <button type="button" title="引用" onclick={() => { activeEditor = editor; insertBlock('> ', '引用'); }}>”</button>
-    <button type="button" title="链接" onclick={() => { activeEditor = editor; insertText('[', '](https://)', '链接'); }}>↗</button>
-    <button type="button" title="图片链接" onclick={() => { activeEditor = editor; promptImageUrl(); }}>图</button>
-    <button type="button" title="上传图片" onclick={() => { activeEditor = editor; imageInput?.click(); }}>+</button>
-    <button type="button" title="表情" class:active={emojiPanelOpen && activeEditor === editor} onclick={() => toggleEmojiPanel(editor)}>☺</button>
+    <button type="button" title="表情" class="flex items-center" class:active={emojiPanelOpen && activeEditor === editor} onclick={() => toggleEmojiPanel(editor)}>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+        <line x1="9" y1="9" x2="9.01" y2="9"/>
+        <line x1="15" y1="9" x2="15.01" y2="9"/>
+      </svg>
+      <span class="ml-1">表情</span>
+    </button>
+    <span class="text-xs text-black/25 dark:text-white/25 ml-2">支持输入 :emoji_code: 格式表情</span>
   </div>
 
   {#if emojiPanelOpen && activeEditor === editor}
@@ -494,7 +435,7 @@ function countAll(list) {
       {#if emojiLoading}
         <div class="text-xs text-black/30 dark:text-white/30 py-4 text-center">加载中...</div>
       {:else if emojiTabs.length > 0}
-        <div class="flex gap-1 mb-3">
+        <div class="flex gap-1 mb-3 overflow-x-auto">
           {#each emojiTabs as tab, index}
             <button type="button" class:active={activeEmojiTab === index} onclick={() => activeEmojiTab = index}>{tab.name}</button>
           {/each}
@@ -559,7 +500,6 @@ function countAll(list) {
               class="comment-textarea w-full resize-none" rows="2"
               bind:this={replyTextarea}
               onfocus={() => activeEditor = 'reply'}
-              onpaste={handlePaste}
               onkeydown={(e) => handleReplyKeydown(e, comment)}></textarea>
             {@render editorToolbar('reply')}
             <div class="flex justify-end gap-2 mt-2">
@@ -633,9 +573,6 @@ function countAll(list) {
   .emoji-grid button:hover { background: rgba(0, 0, 0, 0.05); }
   :global(.dark) .emoji-grid button:hover { background: rgba(255, 255, 255, 0.06); }
   .emoji-grid img, :global(.comment-emoji) { width: 1.35rem; height: 1.35rem; object-fit: contain; display: inline-block; vertical-align: -0.25rem; }
-  :global(.comment-content img:not(.comment-emoji)) {
-    max-width: 100%; max-height: 24rem; border-radius: var(--radius-large); display: block; margin: 0.5rem 0; object-fit: contain;
-  }
   :global(.comment-content p) { margin: 0.25rem 0; }
   :global(.comment-content a) { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
   :global(.comment-content code) { padding: 0.1rem 0.3rem; border-radius: 0.35rem; background: rgba(0, 0, 0, 0.05); }

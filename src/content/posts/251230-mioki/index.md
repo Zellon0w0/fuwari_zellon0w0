@@ -57,7 +57,7 @@ https://nclatest.znin.net/NapNeko/NapCat-Installer/main/script/install.sh \
 >如果你需要在其他平台安装，请参考[Napcat官方文档](https://napneko.github.io/guide/boot/Shell)  
 
 当出现如下界面时即安装完成 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231092359260.png)
+![image.png](https://zellonr2.zellon.top/blog/20251231092359260.png)
 此时即可正常启动 Napcat (推荐使用后台运行) 
 
 在终端中运行如下命令启动 Napcat 
@@ -95,7 +95,7 @@ screen -dmS napcat bash -c "xvfb-run -a /root/Napcat/opt/QQ/qq --no-sandbox "
 
 访问`127.0.0.1:6099`或`服务器公网ip:6099`来打开 Napcat Webui，查看终端后台即可获取到登录 token  
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231094203631.png)
+![image.png](https://zellonr2.zellon.top/blog/20251231094203631.png)
 >后台启动输入`screen -r napcat`即可打开 Napcat 后台，复制 token 后可直接`ctrl+A+D`关闭 screen 
 
 ⚠️⚠️⚠️⚠️⚠️⚠️⚠️注意⚠️⚠️⚠️⚠️⚠️⚠️⚠️ 
@@ -104,12 +104,12 @@ Webui 首次登录后一定要将 token 更改为强密码，不要使用诸如`
 
 登录后可在`其他配置-登录配置`中启用快速登录，实现开机自启动后自动登录 QQ 
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231095202720.png)
+![image.png](https://zellonr2.zellon.top/blog/20251231095202720.png)
 
 随后在`网络配置`中创建`Websocket服务器`，勾选`启用`，`名称`可自定义，`Host`建议改为`0.0.0.0`，`Token`自行更改，保存即可  
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231095437380.png)
+![image.png](https://zellonr2.zellon.top/blog/20251231095437380.png)
 当你看到`网络配置`中出现了`mioki(自定义的名称)`的配置，即配置成功 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251231095710519.png)
+![image.png](https://zellonr2.zellon.top/blog/20251231095710519.png)
 
 # 三、Mioki部署 
 

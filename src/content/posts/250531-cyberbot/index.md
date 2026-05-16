@@ -61,7 +61,7 @@ https://nclatest.znin.net/NapNeko/NapCat-Installer/main/script/install.sh \
 >完成。  
 
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250531160057438.png)
+![image.png](https://zellonr2.zellon.top/blog/20250531160057438.png)
 当看到如上提示时，即代表NapCat已经安装完毕。  
 
 使用`screen -dmS napcat bash -c "xvfb-run -a qq --no-sandbox"`启动NapCat后台服务。  
@@ -81,7 +81,7 @@ https://nclatest.znin.net/NapNeko/NapCat-Installer/main/script/install.sh \
 
 # 二、配置NapCat  
 
-登录WebUI后扫码登录QQ，随后点击左侧的网络配置，新建一个**Websocket服务器**，并按照下图所示进行配置（可自行根据需要更改端口等）![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20250531164154927.png)
+登录WebUI后扫码登录QQ，随后点击左侧的网络配置，新建一个**Websocket服务器**，并按照下图所示进行配置（可自行根据需要更改端口等）![image.png](https://zellonr2.zellon.top/blog/20250531164154927.png)
 
 
 记住此处的端口号以及token，随后CyberBot的配置中需要用到此处的端口及token。  

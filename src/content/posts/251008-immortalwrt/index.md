@@ -122,11 +122,11 @@ make menuconfig
 
 首先在前三个选项中选择好对应的架构，我这里使用 x86_64作为演示 
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251017155822946.png)
+![image.png](https://zellonr2.zellon.top/blog/20251017155822946.png)
 
 随后进入第四个选项修改内核空间大小，可自行设定大小 
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251017160122113.png)
+![image.png](https://zellonr2.zellon.top/blog/20251017160122113.png)
 
 添加 rkp-ipid 模块 
 
@@ -158,7 +158,7 @@ make menuconfig
 
 回到主界面后用方向键选择 Save 进行保存，在弹出的窗口直接按两次回车，此时会返回主界面，再次选中 Exit 退出 
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251017162935610.png)
+![image.png](https://zellonr2.zellon.top/blog/20251017162935610.png)
 
 内核编译配置 
 
@@ -195,7 +195,7 @@ make -j$(nproc) V=cs
 
 编译完成后在 `immortalwrt/bin/targets/x86/64/` 文件夹中取出编译好的固件，建议使用 `squashfs-combined-efi` 后缀的压缩固件
 
-![image.png](https://zellonbucket.oss-cn-beijing.aliyuncs.com/img/20251017200823664.png)
+![image.png](https://zellonr2.zellon.top/blog/20251017200823664.png)
 
 
 # 刷入 ImmortalWrt 

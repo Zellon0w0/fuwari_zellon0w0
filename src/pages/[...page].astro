@@ -92,13 +92,13 @@ function getThoughtImages(body: string) {
 										const allImgs = getThoughtImages(thought.body);
 										const imgs = allImgs.slice(0, 3);
 										return imgs.length > 0 && (
-											<div class="mt-2 flex flex-wrap gap-2">
+											<div class="mt-3 flex flex-col gap-2">
 												{imgs.map((imgUrl, idx) => (
-													<div class="relative h-16 w-16 overflow-hidden rounded-lg border border-[var(--line-divider)]">
+													<div class="relative w-52 aspect-[4/3] overflow-hidden rounded-lg border border-[var(--line-divider)]">
 														<img src={imgUrl} alt="Preview" class="h-full w-full object-cover" />
 														{idx === 2 && allImgs.length > 3 && (
 															<div class="absolute inset-0 flex items-center justify-center bg-black/45 text-xs font-bold text-white">
-																+{allImgs.length - 3}
+																还有 {allImgs.length - 3} 张图片
 															</div>
 														)}
 													</div>

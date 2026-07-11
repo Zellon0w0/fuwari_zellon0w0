@@ -43,6 +43,28 @@
       });
       commentsInstance.mount();
 
+      // 注入自定义 CSS 到 Shadow DOM 以覆盖配色变量，使其与博客主题完全一致
+      const style = document.createElement('style');
+      style.textContent = `
+        .cwd-comments-container,
+        [data-theme="light"],
+        [data-theme="dark"] {
+          --cwd-primary: var(--primary) !important;
+          --cwd-primary-hover: var(--primary) !important;
+          --cwd-bg: transparent !important;
+          --cwd-bg-input: var(--btn-regular-bg) !important;
+          --cwd-bg-secondary: var(--btn-regular-bg) !important;
+          --cwd-bg-reply: var(--btn-regular-bg) !important;
+          --cwd-bg-hover: var(--btn-regular-bg-hover) !important;
+          --cwd-bg-avatar: var(--btn-regular-bg) !important;
+          --cwd-border: var(--line-divider) !important;
+          --cwd-border-light: var(--line-divider) !important;
+          --cwd-radius: var(--radius-large) !important;
+          --cwd-text: inherit !important;
+        }
+      `;
+      commentsEl.shadowRoot.appendChild(style);
+
       // 监听博客主题切换
       observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {

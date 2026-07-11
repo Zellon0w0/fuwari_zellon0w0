@@ -4,13 +4,13 @@ import Markdown from "@components/misc/Markdown.astro";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-	entry: CollectionEntry<"thoughts">;
+	entry: any;
 	number: number;
 	style?: string;
 }
 
 const { entry, number, style } = Astro.props;
-const { Content } = await entry.render();
+const Content = entry.render ? (await entry.render()).Content : null;
 
 const thoughtNumber = String(number).padStart(3, "0");
 const anchorId = `thought-${thoughtNumber}`;
@@ -76,18 +76,6 @@ function formatWeekday(date: Date) {
 					置顶
 				</span>
 			)}
-			{entry.data.mood && (
-				<span class="inline-flex items-center gap-1 text-black/40 dark:text-white/40">
-					<Icon name="material-symbols:mood-outline-rounded" class="text-[0.875rem]" />
-					{entry.data.mood}
-				</span>
-			)}
-			{entry.data.location && (
-				<span class="inline-flex items-center gap-1 text-black/40 dark:text-white/40">
-					<Icon name="material-symbols:location-on-outline-rounded" class="text-[0.875rem]" />
-					{entry.data.location}
-				</span>
-			)}
 		</div>
 
 		{entry.data.title && (
@@ -97,18 +85,8 @@ function formatWeekday(date: Date) {
 		)}
 
 		<Markdown class="thought-body">
-			<Content />
+			{entry.htmlContent ? <Fragment set:html={entry.htmlContent} /> : Content && <Content />}
 		</Markdown>
-
-		{entry.data.tags.length > 0 && (
-			<div class="mt-4 flex flex-wrap gap-2">
-				{entry.data.tags.map((tag) => (
-					<span class="rounded-[var(--radius-large)] bg-[var(--btn-plain-bg-hover)] px-2 py-1 text-xs font-medium text-black/45 dark:text-white/45">
-						#{tag}
-					</span>
-				))}
-			</div>
-		)}
 	</article>
 </li>
 

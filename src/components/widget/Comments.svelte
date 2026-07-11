@@ -84,6 +84,10 @@
           color: var(--cwd-text) !important;
         }
 
+        .cwd-comment-content {
+          white-space: pre-wrap !important;
+        }
+
         /* 头部统计与喜欢按钮 */
         .cwd-header {
           border-bottom: 1px solid var(--cwd-border) !important;

@@ -34,6 +34,7 @@
     "@vercel/analytics": "^1.6.1",
     "astro": "5.7.13",
     "astro-icon": "^1.1.5",
+    "gray-matter": "^4.0.3",
     "hastscript": "^9.0.1",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",

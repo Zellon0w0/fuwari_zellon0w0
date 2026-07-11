@@ -2,7 +2,6 @@
 title: CWD评论系统使用问题汇总
 published: 2026-07-11
 description: CWD使用过程中的问题
-image: ./cover.jpg
 tags:
   - 博客
   - 评论系统

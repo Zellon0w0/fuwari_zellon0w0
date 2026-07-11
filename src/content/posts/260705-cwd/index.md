@@ -9,7 +9,7 @@ tags:
 category: 折腾日记
 draft: false
 ---
->如果你看了我前面的文章，可能注意到我在几个月前刚从 [Giscus](https://giscus.app/zh-CN) 转到 [Waline](https://waline.js.org/) 。然而这几个月中我使用 Waline 的体验可以说是不尽人意。这段时间因为更换了邮箱授权码，我尝试在 Vercel 后台修改环境变量，然而修改后重新部署却会报错，好在 Vercel 可以撤回构建。然而我在导出评论后，尝试从头部署时却仍旧会报错。再回想起适配 Waline 过程中的糟糕体验，我果断决定放弃 Waline，加入[@时歌](https://lapis.cafe) 推荐的 [CWD评论系统](https://cwd.js.org) 。 
+>如果你看了我前面的文章，可能注意到我在几个月前刚从 [Giscus](https://giscus.app/zh-CN) 转到 [Waline](https://waline.js.org/) 。然而这几个月中我使用 Waline 的体验可以说是不尽人意。这段时间因为更换了邮箱授权码，我尝试在 Vercel 后台修改环境变量，然而修改后重新部署却会报错，好在 Vercel 可以撤回构建。当我在导出评论后，尝试从头部署时却仍旧会报错。再回想起适配 Waline 过程中的糟糕体验，我果断决定放弃 Waline，加入[@时歌](https://lapis.cafe) 推荐的 [CWD评论系统](https://cwd.js.org) 。 
 
 部署过程这里省略，可以参照[官方后端配置方法](https://cwd.js.org/guide/backend-config.html)。 
 

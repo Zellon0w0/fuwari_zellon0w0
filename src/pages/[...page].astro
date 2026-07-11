@@ -49,6 +49,16 @@ function getThoughtExcerpt(body: string) {
 		.trim()
 		.slice(0, 92);
 }
+
+function getThoughtImages(body: string) {
+	const regex = /!\[[^\]]*\]\(([^)]+)\)/g;
+	const images = [];
+	let match;
+	while ((match = regex.exec(body)) !== null) {
+		images.push(match[1]);
+	}
+	return images;
+}
 ---
 
 <MainGridLayout hideSidebar={true}>
@@ -77,7 +87,25 @@ function getThoughtExcerpt(body: string) {
 										<span>{formatDate(thought.data.published)}</span>
 									</div>
 									{thought.data.title && <div class="mb-1 font-bold leading-snug text-90 group-hover:text-[var(--primary)]">{thought.data.title}</div>}
-									<p class="line-clamp-2 text-sm leading-7 text-75 md:line-clamp-3">{getThoughtExcerpt(thought.body)}</p>
+									{getThoughtExcerpt(thought.body) && <p class="line-clamp-2 text-sm leading-7 text-75 md:line-clamp-3">{getThoughtExcerpt(thought.body)}</p>}
+									{(() => {
+										const allImgs = getThoughtImages(thought.body);
+										const imgs = allImgs.slice(0, 3);
+										return imgs.length > 0 && (
+											<div class="mt-2 flex flex-wrap gap-2">
+												{imgs.map((imgUrl, idx) => (
+													<div class="relative h-16 w-16 overflow-hidden rounded-lg border border-[var(--line-divider)]">
+														<img src={imgUrl} alt="Preview" class="h-full w-full object-cover" />
+														{idx === 2 && allImgs.length > 3 && (
+															<div class="absolute inset-0 flex items-center justify-center bg-black/45 text-xs font-bold text-white">
+																+{allImgs.length - 3}
+															</div>
+														)}
+													</div>
+												))}
+											</div>
+										)
+									})()}
 								</a>
 							))}
 						</div>

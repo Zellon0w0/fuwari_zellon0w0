@@ -46,6 +46,38 @@
       // 注入自定义 CSS 到 Shadow DOM 以细化样式对齐
       const customStyle = document.createElement('style');
       customStyle.textContent = `
+        /* 覆盖 CWD 原生 CSS 变量以对齐博客主题颜色与样式 */
+        .cwd-comments-container {
+          --cwd-primary: var(--primary) !important;
+          --cwd-primary-hover: var(--primary) !important;
+          --cwd-radius: var(--radius-large) !important;
+          --cwd-border: var(--line-divider) !important;
+          --cwd-border-light: var(--line-divider) !important;
+          --cwd-bg: var(--card-bg) !important;
+        }
+
+        .cwd-comments-container[data-theme="light"] {
+          --cwd-text: rgba(0, 0, 0, 0.85) !important;
+          --cwd-text-secondary: rgba(0, 0, 0, 0.45) !important;
+          --cwd-bg-input: rgba(0, 0, 0, 0.03) !important;
+          --cwd-bg-secondary: rgba(0, 0, 0, 0.02) !important;
+          --cwd-bg-reply: rgba(0, 0, 0, 0.02) !important;
+          --cwd-bg-hover: rgba(0, 0, 0, 0.03) !important;
+          --cwd-bg-disabled: rgba(0, 0, 0, 0.05) !important;
+          --cwd-bg-avatar: rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .cwd-comments-container[data-theme="dark"] {
+          --cwd-text: rgba(255, 255, 255, 0.85) !important;
+          --cwd-text-secondary: rgba(255, 255, 255, 0.45) !important;
+          --cwd-bg-input: rgba(255, 255, 255, 0.05) !important;
+          --cwd-bg-secondary: rgba(255, 255, 255, 0.03) !important;
+          --cwd-bg-reply: rgba(255, 255, 255, 0.03) !important;
+          --cwd-bg-hover: rgba(255, 255, 255, 0.05) !important;
+          --cwd-bg-disabled: rgba(255, 255, 255, 0.06) !important;
+          --cwd-bg-avatar: rgba(255, 255, 255, 0.05) !important;
+        }
+
         .cwd-container {
           font-family: inherit !important;
           background: transparent !important;

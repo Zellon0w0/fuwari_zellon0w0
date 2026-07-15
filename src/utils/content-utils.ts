@@ -61,7 +61,10 @@ export async function getSortedThoughts(): Promise<any[]> {
 				frontmatter = parsed.data;
 				contentMarkdown = parsed.content;
 			} catch (e) {
-				console.warn(`Failed to parse frontmatter for issue #${issue.number}, fallback to raw body`, e);
+				console.warn(
+					`Failed to parse frontmatter for issue #${issue.number}, fallback to raw body`,
+					e,
+				);
 			}
 
 			const publishedStr = frontmatter.published || issue.created_at;

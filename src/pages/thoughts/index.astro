@@ -110,5 +110,134 @@ function formatDate(date?: Date) {
 		updateThoughtTimes();
 		document.addEventListener("swup:content:replace", updateThoughtTimes);
 		document.addEventListener("astro:after-swap", updateThoughtTimes);
+
+		// CWD 点赞系统
+		const CWD_API_BASE = "https://api.cwd.zellon.top";
+		const CWD_SITE_ID = "fuwari-blog";
+
+		function getLikeUserId() {
+			try {
+				const storageKey = 'cwd_like_uid';
+				let token = localStorage.getItem(storageKey);
+				if (!token) {
+					if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+						token = crypto.randomUUID();
+					} else {
+						token = `${Date.now()}_${Math.random().toString(16).slice(2)}`;
+					}
+					localStorage.setItem(storageKey, token);
+				}
+				return token;
+			} catch (e) {
+				return 'anonymous';
+			}
+		}
+
+		async function initThoughtLikes() {
+			const buttons = document.querySelectorAll<HTMLButtonElement>(".thought-like-btn");
+			if (buttons.length === 0) return;
+
+			const userId = getLikeUserId();
+
+			// 设置点击处理程序
+			buttons.forEach((btn) => {
+				if (btn.dataset.initialized) return;
+				btn.dataset.initialized = "true";
+
+				btn.addEventListener("click", async (e) => {
+					e.stopPropagation();
+					if (btn.classList.contains("liked")) return;
+
+					const thoughtId = btn.dataset.thoughtId;
+					const postSlug = `/thoughts/${thoughtId}`;
+					const countEl = btn.querySelector<HTMLElement>(".like-count");
+					if (!countEl) return;
+
+					const currentCount = parseInt(countEl.textContent || "0", 10);
+
+					// 乐观更新 UI
+					btn.classList.add("liked");
+					btn.disabled = true;
+					countEl.textContent = String(currentCount + 1);
+
+					try {
+						const res = await fetch(`${CWD_API_BASE}/api/like`, {
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								"X-CWD-Like-User": userId,
+							},
+							body: JSON.stringify({
+								postSlug: postSlug,
+								siteId: CWD_SITE_ID,
+							}),
+						});
+
+						if (res.ok) {
+							const data = await res.json();
+							countEl.textContent = String(data.totalLikes);
+						} else {
+							// 回滚乐观更新
+							btn.classList.remove("liked");
+							btn.disabled = false;
+							countEl.textContent = String(currentCount);
+						}
+					} catch (err) {
+						console.error("Failed to submit like:", err);
+						btn.classList.remove("liked");
+						btn.disabled = false;
+						countEl.textContent = String(currentCount);
+					}
+				});
+			});
+
+			// 设置交叉观察器进行懒加载
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(async (entry) => {
+					if (entry.isIntersecting) {
+						const btn = entry.target as HTMLButtonElement;
+						observer.unobserve(btn);
+
+						const thoughtId = btn.dataset.thoughtId;
+						const postSlug = `/thoughts/${thoughtId}`;
+						const countEl = btn.querySelector<HTMLElement>(".like-count");
+
+						try {
+							const res = await fetch(
+								`${CWD_API_BASE}/api/like?post_slug=${encodeURIComponent(postSlug)}&siteId=${CWD_SITE_ID}`,
+								{
+									headers: {
+										"X-CWD-Like-User": userId,
+									},
+								}
+							);
+
+							if (res.ok) {
+								const data = await res.json();
+								if (countEl) {
+									countEl.textContent = String(data.totalLikes);
+								}
+								if (data.liked) {
+									btn.classList.add("liked");
+									btn.disabled = true;
+								} else {
+									btn.disabled = false;
+								}
+							}
+						} catch (err) {
+							console.error("Failed to load like status:", err);
+						}
+					}
+				});
+			}, { rootMargin: "100px" });
+
+			buttons.forEach((btn) => {
+				observer.observe(btn);
+			});
+		}
+
+		initThoughtLikes();
+		document.addEventListener("swup:content:replace", initThoughtLikes);
+		document.addEventListener("astro:after-swap", initThoughtLikes);
 	</script>
 </MainGridLayout>

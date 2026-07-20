@@ -1,4 +1,4 @@
-import { defineCollection, type CollectionConfig, z } from "astro:content";
+import { type CollectionConfig, defineCollection, z } from "astro:content";
 
 type PostSchema = {
 	title: string;

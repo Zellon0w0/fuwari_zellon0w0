@@ -76,6 +76,19 @@ function formatWeekday(date: Date) {
 					置顶
 				</span>
 			)}
+			<span class="text-black/35 dark:text-white/35 select-none">·</span>
+			<button
+				class="thought-like-btn group/like inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-black/35 dark:text-white/35 hover:bg-black/5 dark:hover:bg-white/5 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] transition-all cursor-pointer disabled:pointer-events-none select-none"
+				data-thought-id={thoughtNumber}
+				aria-label="喜欢这条碎碎念"
+				disabled
+			>
+				<span class="like-icon-container flex items-center">
+					<Icon name="material-symbols:favorite-outline-rounded" class="like-icon-outline text-[0.875rem] transition-transform group-active/like:scale-75" />
+					<Icon name="material-symbols:favorite-rounded" class="like-icon-filled text-[0.875rem] text-[var(--primary)] transition-transform group-active/like:scale-75" />
+				</span>
+				<span class="like-count text-[0.75rem]">0</span>
+			</button>
 		</div>
 
 		{entry.data.title && (
@@ -118,5 +131,21 @@ function formatWeekday(date: Date) {
 		border-radius: var(--radius-large);
 		border: 1px solid var(--line-divider);
 		object-fit: contain;
+	}
+
+	.thought-like-btn .like-icon-filled {
+		display: none;
+	}
+
+	.thought-like-btn.liked .like-icon-outline {
+		display: none;
+	}
+
+	.thought-like-btn.liked .like-icon-filled {
+		display: inline-block;
+	}
+
+	.thought-like-btn.liked {
+		color: var(--primary) !important;
 	}
 </style>
